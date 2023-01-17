@@ -1,8 +1,6 @@
 var BLE_Server;
 
 function isWebBluetoothEnabled() {
-    // document.getElementById("demo").innerHTML = "Yes";
-
     // this is what generates the BLE pop up searching window
     navigator.bluetooth.requestDevice({
         filters: [{
@@ -23,29 +21,7 @@ function isWebBluetoothEnabled() {
     .catch(error => { console.error(error); });
 }
 
-// async function handleCharacteristicValueChanged(event) {
-//     const value = event.target.value;
-//     var enc = new TextDecoder("utf-8");
-//     console.log(enc.decode(value));
-// }
 
-// function receiveMSG(){
-//     BLE_Server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
-//     .then(service => {
-//         return service.getCharacteristic("beb5483e-36e1-4688-b7f5-ea07361b26a8");
-//     })
-//     .then(characteristic => {
-//         if (characteristic.properties.notify){
-//             var enc = new TextDecoder("utf-8");
-//             console.log("Notifications enabled");
-//             characteristic.addEventListener("characteristicvaluechanged",handleCharacteristicValueChanged);
-//             characteristic.startNotifications();
-//         }
-//     })
-//     .catch(error => { console.error(error); });
-// }
-
-// sends the string message msg over BLE to the connected device over the specified topic
 function sendMSG(msg){
     console.log("Sending : " + msg);
     BLE_Server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b")

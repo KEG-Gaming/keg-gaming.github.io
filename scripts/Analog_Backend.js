@@ -133,10 +133,6 @@ function sendStickCalibration(){
         console.log("C-Stick Y Callibration Unchanged");
     }
     var msg = "";
-    // msg = msg + AX_Cal_Vals[0].toString() + "," + AX_Cal_Vals[1].toString() + "," + AX_Cal_Vals[2].toString() + ":";
-    // msg = msg + AY_Cal_Vals[0].toString() + "," + AY_Cal_Vals[1].toString() + "," + AY_Cal_Vals[2].toString() + ":";
-    // msg = msg + CX_Cal_Vals[0].toString() + "," + CX_Cal_Vals[1].toString() + "," + CX_Cal_Vals[2].toString() + ":";
-    // msg = msg + CY_Cal_Vals[0].toString() + "," + CY_Cal_Vals[1].toString() + "," + CY_Cal_Vals[2].toString();
 
     msg = msg + String(AX_Cal_Vals[0]).padStart(4, '0') + "," + String(AX_Cal_Vals[1]).padStart(4, '0') + "," + String(AX_Cal_Vals[2]).padStart(4, '0') + ":";
     msg = msg + String(AY_Cal_Vals[0]).padStart(4, '0') + "," + String(AY_Cal_Vals[1]).padStart(4, '0') + "," + String(AY_Cal_Vals[2]).padStart(4, '0') + ":";
@@ -144,4 +140,8 @@ function sendStickCalibration(){
     msg = msg + String(CY_Cal_Vals[0]).padStart(4, '0') + "," + String(CY_Cal_Vals[1]).padStart(4, '0') + "," + String(CY_Cal_Vals[2]).padStart(4, '0');
 
     sendMSG(msg);
+}
+
+function saveCalibValues(){
+    sendMSG("SAC");
 }
