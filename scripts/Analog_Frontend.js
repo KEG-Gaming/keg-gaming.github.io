@@ -81,8 +81,8 @@ function draw() {
             else{
                 ctx.lineWidth = 5;
                 ctx.beginPath();
-                analog_stick_X = oX+R+R*(-1/2+mapStickVals(currentAX)/255);
-                analog_stick_Y = oY+R*(-1/2+mapStickVals(currentAY)/255);
+                analog_stick_X = oX+R+R*(-1/2+mapStickVals(Curr_AX_Cal_Vals[0], Curr_AX_Cal_Vals[1],Curr_AX_Cal_Vals[2], currentAX)/255);
+                analog_stick_Y = oY+R*(-1/2+mapStickVals(Curr_AY_Cal_Vals[0], Curr_AY_Cal_Vals[1],Curr_AY_Cal_Vals[2], currentAY)/255);
                 ctx.arc(analog_stick_X, analog_stick_Y, R-15, 0, Math.PI * 2, true); // Outer circle
                 ctx.stroke();
             }
@@ -205,7 +205,7 @@ function drawText(ctx,text,x,y){
     ctx.fillText(text, x, y)
 }
 
-function mapStickVals(low, high, neutch, val){
+function mapStickVals(neutch, low, high, val){
     var mapped = -1;
     var lowS;
     var highS;
