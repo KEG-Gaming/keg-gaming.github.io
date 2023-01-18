@@ -79,7 +79,7 @@ function draw() {
                 ctx.stroke();
             }
             else{
-                display_msg = "Stick Follow 0"
+                display_msg = mapStickVals(Curr_AX_Cal_Vals[0], Curr_AX_Cal_Vals[1],Curr_AX_Cal_Vals[2], currentAX).toString();
                 ctx.lineWidth = 5;
                 ctx.beginPath();
                 analog_stick_X = oX+R+R*(-1/2+mapStickVals(Curr_AX_Cal_Vals[0], Curr_AX_Cal_Vals[1],Curr_AX_Cal_Vals[2], currentAX)/255);
