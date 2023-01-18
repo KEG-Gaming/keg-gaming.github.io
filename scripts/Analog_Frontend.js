@@ -69,13 +69,23 @@ function draw() {
             drawOctogon(ctx,R,oX,oY);
             pop_analog_stick_bound_rect(R,oX,oY);
 
-            // making analog stick circle
-            ctx.lineWidth = 5;
-            ctx.beginPath();
-            analog_stick_X = oX+R+R*analog_stick_cal_X_shifts[storageCounter];
-            analog_stick_Y = oY+R*analog_stick_cal_Y_shifts[storageCounter];
-            ctx.arc(analog_stick_X, analog_stick_Y, R-15, 0, Math.PI * 2, true); // Outer circle
-            ctx.stroke();
+            if(store_val_flag){
+                // making analog stick circle
+                ctx.lineWidth = 5;
+                ctx.beginPath();
+                analog_stick_X = oX+R+R*analog_stick_cal_X_shifts[storageCounter];
+                analog_stick_Y = oY+R*analog_stick_cal_Y_shifts[storageCounter];
+                ctx.arc(analog_stick_X, analog_stick_Y, R-15, 0, Math.PI * 2, true); // Outer circle
+                ctx.stroke();
+            }
+            else{
+                ctx.lineWidth = 5;
+                ctx.beginPath();
+                analog_stick_X = oX+R+R*(-1/2+mapStickVals(currentAX)/255);
+                analog_stick_Y = oY+R*(-1/2+mapStickVals(currentAY)/255);
+                ctx.arc(analog_stick_X, analog_stick_Y, R-15, 0, Math.PI * 2, true); // Outer circle
+                ctx.stroke();
+            }
         }
 
         if(c_stick_flag){
@@ -195,3 +205,37 @@ function drawText(ctx,text,x,y){
     ctx.fillText(text, x, y)
 }
 
+function mapStickVals(low, high, neutch, val){
+    var mapped = -1;
+    var lowS;
+    var highS;
+    var highSGood = 0; // for checking division by 0
+    var lowSGood = 0; // for checking division by 0
+
+    // make the slopes
+    if((high-neutch)!=0){
+      highS = 127.0/(high-neutch);
+      highSGood = 1;
+    }
+    if((neutch-low)!=0){
+      lowS = 127.0/(neutch-low);
+      lowSGood = 1;
+    }
+
+    // map the value onto the line
+    if(val <= neutch && lowSGood == 1){
+        mapped = Math.round(lowS*val-lowS*neutch+127.0);
+    }
+    if(val > neutch && highSGood == 1){
+        mapped = Math.round(highS*val-highS*neutch+127.0);
+    }
+
+    // check if the mapped value exceeds the bounds
+    if(mapped<0){
+        return 0;
+    }
+    if(mapped > 255){
+        return 255;
+    }
+    return mapped;
+}
