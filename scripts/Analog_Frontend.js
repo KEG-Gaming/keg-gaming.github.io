@@ -44,7 +44,7 @@ var send_calib_flag = 0;
 var save_calib_flag = 0;
 var finished_calib_flag = 0;
 
-var display_msg = "";
+var display_msg = "Message";
 
 function draw() {
     
