@@ -83,7 +83,8 @@ async function handleNewData(event){
                     // }
                     // display_msg = Curr_AX_Cal_Vals[0].toString();
                     // display_msg = readings[0].split(",")[0];
-                    display_msg = readings;
+                    display_msg = readings.split(":")[0];
+                    display_msg = readings.split(",")[0];
                     sendMSG("A");
                 }
                 break;
