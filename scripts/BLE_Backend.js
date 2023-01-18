@@ -3,6 +3,7 @@ var currently_sending;
 
 function isWebBluetoothEnabled() {
     // this is what generates the BLE pop up searching window
+    display_msg = "Waiting";
     navigator.bluetooth.requestDevice({
         filters: [{
             namePrefix: 'KEG'
@@ -81,7 +82,8 @@ async function handleNewData(event){
                     //     Curr_CY_Cal_Vals[i] = readings[3].split(',')[i];
                     // }
                     // display_msg = Curr_AX_Cal_Vals[0].toString();
-                    display_msg = readings[0].split(",")[0];
+                    // display_msg = readings[0].split(",")[0];
+                    display_msg = readings;
                     sendMSG("A");
                 }
                 break;
