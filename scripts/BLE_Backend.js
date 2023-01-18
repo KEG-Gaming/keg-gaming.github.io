@@ -69,22 +69,19 @@ async function handleNewData(event){
             case "RAC": // request analog calibration values
                 if(readings.length == 59){
                     split_readings = readings.split(':');
-                    // for(let i=0;i<3;i++){
-                    //     Curr_AX_Cal_Vals[i] = readings[0].split(',')[i];
-                    // }
-                    // for(let i=0;i<3;i++){
-                    //     Curr_AY_Cal_Vals[i] = readings[1].split(',')[i];
-                    // }
-                    // for(let i=0;i<3;i++){
-                    //     Curr_CX_Cal_Vals[i] = readings[2].split(',')[i];
-                    // }
-                    // for(let i=0;i<3;i++){
-                    //     Curr_CY_Cal_Vals[i] = readings[3].split(',')[i];
-                    // }
-                    // display_msg = Curr_AX_Cal_Vals[0].toString();
-                    // display_msg = readings[0].split(",")[0];
-                    display_msg = readings.split(":")[0];
-                    display_msg = readings.split(",")[0];
+                    for(let i=0;i<3;i++){
+                        Curr_AX_Cal_Vals[i] = split_readings[0].split(',')[i];
+                    }
+                    for(let i=0;i<3;i++){
+                        Curr_AY_Cal_Vals[i] = split_readings[1].split(',')[i];
+                    }
+                    for(let i=0;i<3;i++){
+                        Curr_CX_Cal_Vals[i] = split_readings[2].split(',')[i];
+                    }
+                    for(let i=0;i<3;i++){
+                        Curr_CY_Cal_Vals[i] = split_readings[3].split(',')[i];
+                    }
+                    display_msg = Curr_AY_Cal_Vals[0].toString();
                     sendMSG("A");
                 }
                 break;
