@@ -10,12 +10,12 @@ function parseScreenClick(event){
         var x = event.offsetX;
         var y = event.offsetY;
         // console.log("Clicked " + x + " " + y);
-        if(ctx.isPointInPath(analog_stick_bounding_rect, x, y)) {
+        if(analog_stick_flag && ctx.isPointInPath(analog_stick_bounding_rect, x, y)) {
             // Do Something with the click
             console.log("Clicked the analog stick");
             onAnalogStickClick();
         }
-        if(ctx.isPointInPath(c_stick_bounding_rect, x, y)) {
+        if(c_stick_flag && ctx.isPointInPath(c_stick_bounding_rect, x, y)) {
             // Do Something with the click
             console.log("Clicked the c-stick");
             onCStickClick();

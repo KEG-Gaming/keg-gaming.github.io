@@ -1,7 +1,7 @@
-var currentAX;
-var currentAY;
-var currentCX;
-var currentCY;
+var currentAX = -1;
+var currentAY = -1;
+var currentCX = -1;
+var currentCY = -1;
 
 var storageCounter = 0;
 
@@ -27,19 +27,19 @@ function requestAnalogReadings(){
     var msg = "A";
     sendMSG(msg);
 
-    // BLE_Server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
-    // .then(service => {
-    //     return service.getCharacteristic("beb5483e-36e1-4688-b7f5-ea07361b26a8");
-    // })
-    // .then(characteristic => {
-    //     if (characteristic.properties.notify){
-    //         characteristic.addEventListener("characteristicvaluechanged",handleNewAnalogData);
-    //         characteristic.startNotifications();
-    //         console.log("Analog Notifications enabled");
-    //     }
-    //     return 0;
-    // })
-    // .catch(error => { console.error(error); });
+    BLE_Server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
+    .then(service => {
+        return service.getCharacteristic("beb5483e-36e1-4688-b7f5-ea07361b26a8");
+    })
+    .then(characteristic => {
+        if (characteristic.properties.notify){
+            characteristic.addEventListener("characteristicvaluechanged",handleNewAnalogData);
+            characteristic.startNotifications();
+            console.log("Analog Notifications enabled");
+        }
+        return 0;
+    })
+    .catch(error => { console.error(error); });
 }
 
 async function handleNewAnalogData(event){
@@ -162,5 +162,20 @@ function saveCalibValues(){
 
 
 function requestAnalogCalibration(){
-    sendMSG("RAC");
+    var msg = "RAC";
+    sendMSG(msg);
+
+    BLE_Server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
+    .then(service => {
+        return service.getCharacteristic("3b14260a-9781-11ed-a8fc-0242ac120002");
+    })
+    .then(characteristic => {
+        if (characteristic.properties.notify){
+            characteristic.addEventListener("characteristicvaluechanged",AnalogCalibCallback);
+            characteristic.startNotifications();
+            console.log("Reading analog calibration data enabled");
+        }
+        return 0;
+    })
+    .catch(error => { console.error(error); });
 }

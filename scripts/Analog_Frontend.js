@@ -206,7 +206,6 @@ function drawText(ctx,text,x,y){
 }
 
 function mapStickVals(neutch, low, high, val){
-    display_msg = val.toString();
     var mapped = -1;
     var lowS;
     var highS;
@@ -230,6 +229,8 @@ function mapStickVals(neutch, low, high, val){
     if(val > neutch && highSGood == 1){
         mapped = Math.round(highS*val-highS*neutch+127.0);
     }
+
+    display_msg = mapped.toString();
 
     // check if the mapped value exceeds the bounds
     if(mapped<0){
