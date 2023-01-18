@@ -10,6 +10,11 @@ var AY_Cal_Vals = [0,0,0];
 var CX_Cal_Vals = [0,0,0];
 var CY_Cal_Vals = [0,0,0];
 
+var Curr_AX_Cal_Vals = [0,0,0];
+var Curr_AY_Cal_Vals = [0,0,0];
+var Curr_CX_Cal_Vals = [0,0,0];
+var Curr_CY_Cal_Vals = [0,0,0];
+
 let numCalPoints = 3;
 
 var storeValueButtonFlag = 0;
@@ -22,19 +27,19 @@ function requestAnalogReadings(){
     var msg = "A";
     sendMSG(msg);
 
-    BLE_Server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
-    .then(service => {
-        return service.getCharacteristic("beb5483e-36e1-4688-b7f5-ea07361b26a8");
-    })
-    .then(characteristic => {
-        if (characteristic.properties.notify){
-            characteristic.addEventListener("characteristicvaluechanged",handleNewAnalogData);
-            characteristic.startNotifications();
-            console.log("Analog Notifications enabled");
-        }
-        return 0;
-    })
-    .catch(error => { console.error(error); });
+    // BLE_Server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
+    // .then(service => {
+    //     return service.getCharacteristic("beb5483e-36e1-4688-b7f5-ea07361b26a8");
+    // })
+    // .then(characteristic => {
+    //     if (characteristic.properties.notify){
+    //         characteristic.addEventListener("characteristicvaluechanged",handleNewAnalogData);
+    //         characteristic.startNotifications();
+    //         console.log("Analog Notifications enabled");
+    //     }
+    //     return 0;
+    // })
+    // .catch(error => { console.error(error); });
 }
 
 async function handleNewAnalogData(event){
@@ -111,6 +116,15 @@ function doneCalibration(){
     redo_last_store_flag = 0;
 }
 
+function finishedCalibration(){
+    analog_stick_flag = 0;
+    c_stick_flag = 0;
+    get_current_cal_flag = 0;
+    send_calib_flag = 0;
+    save_calib_flag = 0;
+    finished_calib_flag = 0;
+}
+
 
 
 function checkAndRemoveChild(child){
@@ -144,4 +158,9 @@ function sendStickCalibration(){
 
 function saveCalibValues(){
     sendMSG("SAC");
+}
+
+
+function requestAnalogCalibration(){
+    sendMSG("RAC");
 }

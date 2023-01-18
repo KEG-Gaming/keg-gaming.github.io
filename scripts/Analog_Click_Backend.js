@@ -30,6 +30,18 @@ function parseScreenClick(event){
         if(done_calib_flag && ctx.isPointInPath(done_calib_rect, x, y)){
             doneCalibration();
         }
+        if(get_current_cal_flag && ctx.isPointInPath(get_current_cal_rect, x, y)){
+            requestAnalogCalibration();
+        }
+        if(send_calib_flag && ctx.isPointInPath(send_calib_rect, x, y)){
+            sendStickCalibration();
+        }
+        if(save_calib_flag && ctx.isPointInPath(save_calib_rect, x, y)){
+            saveCalibValues();
+        }
+        if(finished_calib_flag && ctx.isPointInPath(finished_calib_rect, x, y)){
+            finishedCalibration();
+        }
     }
 }
 
