@@ -26,7 +26,7 @@ function requestAnalogReadings(){
     inter();
     var msg = "A";
     sendMSG(msg);
-
+    console.log("Requesting analog data");
     BLE_Server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
     .then(service => {
         return service.getCharacteristic("beb5483e-36e1-4688-b7f5-ea07361b26a8");
@@ -45,14 +45,20 @@ function requestAnalogReadings(){
 async function handleNewAnalogData(event){
     const value = event.target.value;
     var enc = new TextDecoder("utf-8");
-    var AnalogValues = enc.decode(value).split(',');
-    currentAX = parseInt(AnalogValues[0]);
-    currentAY = parseInt(AnalogValues[1]);
-    currentCX = parseInt(AnalogValues[2]);
-    currentCY = parseInt(AnalogValues[3]);
-    // console.log(currentAX);
-    // console.log(currentAY);
-    // console.log("");
+    var str3 = enc.decode(value);
+    if(str3.length == 19){
+        var AnalogValues = enc.decode(value).split(',');
+        currentAX = parseInt(AnalogValues[0]);
+        currentAY = parseInt(AnalogValues[1]);
+        currentCX = parseInt(AnalogValues[2]);
+        currentCY = parseInt(AnalogValues[3]);
+        console.log(currentAX);
+        console.log(currentAY);
+        console.log("");
+    }
+    else{
+        console.log(str3);
+    }
 }
 
 function storeValue(){
@@ -162,20 +168,19 @@ function saveCalibValues(){
 
 
 function requestAnalogCalibration(){
-    var msg = "RAC";
-    sendMSG(msg);
-
-    BLE_Server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
-    .then(service => {
-        return service.getCharacteristic("3b14260a-9781-11ed-a8fc-0242ac120002");
-    })
-    .then(characteristic => {
-        if (characteristic.properties.notify){
-            characteristic.addEventListener("characteristicvaluechanged",AnalogCalibCallback);
-            characteristic.startNotifications();
-            console.log("Reading analog calibration data enabled");
-        }
-        return 0;
-    })
-    .catch(error => { console.error(error); });
+    sendMSG("RAC");
+    // BLE_Server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
+    // .then(service => {
+    //     return service.getCharacteristic("3b14260a-9781-11ed-a8fc-0242ac120002");
+    // })
+    // .then(characteristic => {
+    //     const value = characteristic.target.value;
+    //     var enc = new TextDecoder("utf-8");
+    //     var readings1 = enc.decode(value).split(':');
+    //     console.log(readings1);
+    //     console.log("Reading analog calibration data enabled");
+        
+    //     return 0;
+    // })
+    // .catch(error => { console.error(error); });
 }

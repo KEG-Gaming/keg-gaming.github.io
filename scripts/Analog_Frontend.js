@@ -69,23 +69,23 @@ function draw() {
             drawOctogon(ctx,R,oX,oY);
             pop_analog_stick_bound_rect(R,oX,oY);
 
-            if(store_val_flag){
-                // making analog stick circle
-                ctx.lineWidth = 5;
-                ctx.beginPath();
-                analog_stick_X = oX+R+R*analog_stick_cal_X_shifts[storageCounter];
-                analog_stick_Y = oY+R*analog_stick_cal_Y_shifts[storageCounter];
-                ctx.arc(analog_stick_X, analog_stick_Y, R-15, 0, Math.PI * 2, true); // Outer circle
-                ctx.stroke();
-            }
-            else{
-                ctx.lineWidth = 5;
-                ctx.beginPath();
-                analog_stick_X = oX+R+R*(-1/2+mapStickVals(Curr_AX_Cal_Vals[0], Curr_AX_Cal_Vals[1],Curr_AX_Cal_Vals[2], currentAX)/255);
-                analog_stick_Y = oY+R*(1/2-mapStickVals(Curr_AY_Cal_Vals[0], Curr_AY_Cal_Vals[1],Curr_AY_Cal_Vals[2], currentAY)/255);
-                ctx.arc(analog_stick_X, analog_stick_Y, R-15, 0, Math.PI * 2, true); // Outer circle
-                ctx.stroke();
-            }
+            // if(store_val_flag){
+            // making analog stick circle
+            ctx.lineWidth = 5;
+            ctx.beginPath();
+            analog_stick_X = oX+R+R*analog_stick_cal_X_shifts[storageCounter];
+            analog_stick_Y = oY+R*analog_stick_cal_Y_shifts[storageCounter];
+            ctx.arc(analog_stick_X, analog_stick_Y, R-15, 0, Math.PI * 2, true); // Outer circle
+            ctx.stroke();
+            // }
+            // else{
+            //     ctx.lineWidth = 5;
+            //     ctx.beginPath();
+            //     analog_stick_X = oX+R+R*(-1/2+mapStickVals(Curr_AX_Cal_Vals[0], Curr_AX_Cal_Vals[1],Curr_AX_Cal_Vals[2], currentAX)/255);
+            //     analog_stick_Y = oY+R*(1/2-mapStickVals(Curr_AY_Cal_Vals[0], Curr_AY_Cal_Vals[1],Curr_AY_Cal_Vals[2], currentAY)/255);
+            //     ctx.arc(analog_stick_X, analog_stick_Y, R-15, 0, Math.PI * 2, true); // Outer circle
+            //     ctx.stroke();
+            // }
         }
 
         if(c_stick_flag){
@@ -144,7 +144,7 @@ function draw() {
             drawButton(ctx,finished_calib_rect);
             drawText(ctx,"Finished",625,49);
         }
-        drawText(ctx,display_msg,30,20);
+        // drawText(ctx,display_msg,30,20);
     }
   }
 
@@ -230,7 +230,7 @@ function mapStickVals(neutch, low, high, val){
         mapped = Math.round(highS*val-highS*neutch+127.0);
     }
 
-    display_msg = mapped.toString();
+    // display_msg = mapped.toString();
 
     // check if the mapped value exceeds the bounds
     if(mapped<0){

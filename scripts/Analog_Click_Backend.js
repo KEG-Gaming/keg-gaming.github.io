@@ -32,6 +32,7 @@ function parseScreenClick(event){
         }
         if(get_current_cal_flag && ctx.isPointInPath(get_current_cal_rect, x, y)){
             requestAnalogCalibration();
+            console.log("request analog calibration values");
         }
         if(send_calib_flag && ctx.isPointInPath(send_calib_rect, x, y)){
             sendStickCalibration();

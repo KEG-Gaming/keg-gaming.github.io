@@ -3,7 +3,6 @@ var currently_sending;
 
 function isWebBluetoothEnabled() {
     // this is what generates the BLE pop up searching window
-    display_msg = "Waiting";
     navigator.bluetooth.requestDevice({
         filters: [{
             namePrefix: 'KEG'
@@ -50,48 +49,50 @@ function sendMSG(msg){
 }
 
 
-async function handleNewData(event){
-    const value = event.target.value;
-    var enc = new TextDecoder("utf-8");
-    var readings = enc.decode(value);
-    var split_readings;
-    console.log(readings);
-    console.log(readings.length);
-    try{
-        split_readings = readings.split(',');
-        console.log(split_readings[0]);
-        currentAX = parseInt(split_readings[0]);
-        currentAY = parseInt(split_readings[1]);
-        currentCX = parseInt(split_readings[2]);
-        currentCY = parseInt(split_readings[3]);
-    }
-    catch(err){
-        console.log(err.message);
-    }
-}
+// async function handleNewAnalogData(event){
+//     const value = event.target.value;
+//     var enc = new TextDecoder("utf-8");
+//     var readings = enc.decode(value);
+//     var split_readings;
+//     console.log(readings);
+//     console.log(readings.length);
+//     try{
+//         split_readings = readings.split(',');
+//         console.log(split_readings[0]);
+//         currentAX = parseInt(split_readings[0]);
+//         currentAY = parseInt(split_readings[1]);
+//         currentCX = parseInt(split_readings[2]);
+//         currentCY = parseInt(split_readings[3]);
+//         display_msg = currentAX.toString();
+//     }
+//     catch(err){
+//         console.log(err.message);
+//     }
+// }
 
-function AnalogCalibCallback(event){
-    const value = event.target.value;
-    var enc = new TextDecoder("utf-8");
-    var readings = enc.decode(value);
-    var split_readings;
-    try{
-        split_readings = readings.split(':');
-        for(let i=0;i<3;i++){
-            Curr_AX_Cal_Vals[i] = split_readings[0].split(',')[i];
-        }
-        for(let i=0;i<3;i++){
-            Curr_AY_Cal_Vals[i] = split_readings[1].split(',')[i];
-        }
-        for(let i=0;i<3;i++){
-            Curr_CX_Cal_Vals[i] = split_readings[2].split(',')[i];
-        }
-        for(let i=0;i<3;i++){
-            Curr_CY_Cal_Vals[i] = split_readings[3].split(',')[i];
-        }
-        sendMSG("A");
-    }   
-    catch(err){
-        console.log(err.message);
-    }
-}
+// function AnalogCalibCallback(event){
+//     console.log("Yo");
+//     // const value = event.target.value;
+//     // var enc = new TextDecoder("utf-8");
+//     // var readings = enc.decode(value);
+//     // var split_readings;
+//     // try{
+//     //     split_readings = readings.split(':');
+//     //     for(let i=0;i<3;i++){
+//     //         Curr_AX_Cal_Vals[i] = split_readings[0].split(',')[i];
+//     //     }
+//     //     for(let i=0;i<3;i++){
+//     //         Curr_AY_Cal_Vals[i] = split_readings[1].split(',')[i];
+//     //     }
+//     //     for(let i=0;i<3;i++){
+//     //         Curr_CX_Cal_Vals[i] = split_readings[2].split(',')[i];
+//     //     }
+//     //     for(let i=0;i<3;i++){
+//     //         Curr_CY_Cal_Vals[i] = split_readings[3].split(',')[i];
+//     //     }
+//     //     sendMSG("A");
+//     // }   
+//     // catch(err){
+//     //     console.log(err.message);
+//     // }
+// }
