@@ -40,6 +40,16 @@ function parseScreenClick(event){
         if(save_calib_flag && ctx.isPointInPath(save_calib_rect, x, y)){
             saveCalibValues();
         }
+        if(deadzones_flag && ctx.isPointInPath(deadzones_rect, x, y)){
+            editDeadzones();
+            // console.log("deadzone tuning selected");
+        }
+        if(deadzones_flag && ctx.isPointInPath(send_deadzones_rect, x, y)){
+            sendStickDeadzones();
+        }
+        if(deadzones_flag && ctx.isPointInPath(save_deadzones_rect, x, y)){
+            saveStickDeadzones();
+        }
         if(finished_calib_flag && ctx.isPointInPath(finished_calib_rect, x, y)){
             finishedCalibration();
         }
