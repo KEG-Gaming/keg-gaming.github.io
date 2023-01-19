@@ -69,23 +69,23 @@ function draw() {
             drawOctogon(ctx,R,oX,oY);
             pop_analog_stick_bound_rect(R,oX,oY);
 
-            // if(store_val_flag){
-            // making analog stick circle
-            ctx.lineWidth = 5;
-            ctx.beginPath();
-            analog_stick_X = oX+R+R*analog_stick_cal_X_shifts[storageCounter];
-            analog_stick_Y = oY+R*analog_stick_cal_Y_shifts[storageCounter];
-            ctx.arc(analog_stick_X, analog_stick_Y, R-15, 0, Math.PI * 2, true); // Outer circle
-            ctx.stroke();
-            // }
-            // else{
-            //     ctx.lineWidth = 5;
-            //     ctx.beginPath();
-            //     analog_stick_X = oX+R+R*(-1/2+mapStickVals(Curr_AX_Cal_Vals[0], Curr_AX_Cal_Vals[1],Curr_AX_Cal_Vals[2], currentAX)/255);
-            //     analog_stick_Y = oY+R*(1/2-mapStickVals(Curr_AY_Cal_Vals[0], Curr_AY_Cal_Vals[1],Curr_AY_Cal_Vals[2], currentAY)/255);
-            //     ctx.arc(analog_stick_X, analog_stick_Y, R-15, 0, Math.PI * 2, true); // Outer circle
-            //     ctx.stroke();
-            // }
+            if(store_val_flag){
+                // making analog stick circle
+                ctx.lineWidth = 5;
+                ctx.beginPath();
+                analog_stick_X = oX+R+R*analog_stick_cal_X_shifts[storageCounter];
+                analog_stick_Y = oY+R*analog_stick_cal_Y_shifts[storageCounter];
+                ctx.arc(analog_stick_X, analog_stick_Y, R-15, 0, Math.PI * 2, true); // Outer circle
+                ctx.stroke();
+            }
+            else{
+                ctx.lineWidth = 5;
+                ctx.beginPath();
+                analog_stick_X = oX+R+R*(-1/2+mapStickVals(Curr_AX_Cal_Vals[0], Curr_AX_Cal_Vals[1],Curr_AX_Cal_Vals[2], currentAX)/255);
+                analog_stick_Y = oY+R*(1/2-mapStickVals(Curr_AY_Cal_Vals[0], Curr_AY_Cal_Vals[1],Curr_AY_Cal_Vals[2], currentAY)/255);
+                ctx.arc(analog_stick_X, analog_stick_Y, R-15, 0, Math.PI * 2, true); // Outer circle
+                ctx.stroke();
+            }
         }
 
         if(c_stick_flag){
@@ -100,13 +100,23 @@ function draw() {
             drawOctogon(ctx,R,oX,oY);
             pop_c_stick_bound_rect(R,oX,oY);
 
-            // making c-stick circle
-            ctx.lineWidth = 5;
-            ctx.beginPath();
-            c_stick_X = oX+R+R*c_stick_cal_X_shifts[storageCounter];
-            c_stick_Y = oY+R*c_stick_cal_Y_shifts[storageCounter];
-            ctx.arc(c_stick_X, c_stick_Y, R-20, 0, Math.PI * 2, true); // Outer circle
-            ctx.stroke();
+            if(store_val_flag){
+                // making c-stick circle
+                ctx.lineWidth = 5;
+                ctx.beginPath();
+                c_stick_X = oX+R+R*c_stick_cal_X_shifts[storageCounter];
+                c_stick_Y = oY+R*c_stick_cal_Y_shifts[storageCounter];
+                ctx.arc(c_stick_X, c_stick_Y, R-20, 0, Math.PI * 2, true); // Outer circle
+                ctx.stroke();
+            }
+            else{
+                ctx.lineWidth = 5;
+                ctx.beginPath();
+                c_stick_X = oX+R+R*(-1/2+mapStickVals(Curr_CX_Cal_Vals[0], Curr_CX_Cal_Vals[1],Curr_CX_Cal_Vals[2], currentCX)/255);
+                c_stick_Y = oY+R*(1/2-mapStickVals(Curr_CY_Cal_Vals[0], Curr_CY_Cal_Vals[1],Curr_CY_Cal_Vals[2], currentCY)/255);
+                ctx.arc(c_stick_X, c_stick_Y, R-20, 0, Math.PI * 2, true); // Outer circle
+                ctx.stroke();
+            }
         }
 
         // other buttons like store, redo, done, etc...
@@ -128,9 +138,13 @@ function draw() {
             drawButton(ctx,redo_last_rect);
             drawText(ctx,"Redo",190,109);
         }
-        if(get_current_cal_flag){
+        if(get_current_cal_flag == 1){
             drawButton(ctx,get_current_cal_rect);
             drawText(ctx,"Read Calibration",13,49);
+        }
+        if(get_current_cal_flag == 2){
+            drawButton(ctx,get_current_cal_rect);
+            drawText(ctx,"Read Analog",13,49);
         }
         if(send_calib_flag){
             drawButton(ctx,send_calib_rect);

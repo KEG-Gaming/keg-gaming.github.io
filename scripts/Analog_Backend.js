@@ -52,12 +52,25 @@ async function handleNewAnalogData(event){
         currentAY = parseInt(AnalogValues[1]);
         currentCX = parseInt(AnalogValues[2]);
         currentCY = parseInt(AnalogValues[3]);
-        console.log(currentAX);
-        console.log(currentAY);
-        console.log("");
+        // console.log(currentAX);
+        // console.log(currentAY);
+        // console.log("");
     }
     else{
-        console.log(str3);
+        var AnalogCalibValues = enc.decode(value).split(':');
+        for(let i=0;i<3;i++){
+            Curr_AX_Cal_Vals[i] = AnalogCalibValues[0].split(',')[i];
+        }
+        for(let i=0;i<3;i++){
+            Curr_AY_Cal_Vals[i] = AnalogCalibValues[1].split(',')[i];
+        }
+        for(let i=0;i<3;i++){
+            Curr_CX_Cal_Vals[i] = AnalogCalibValues[2].split(',')[i];
+        }
+        for(let i=0;i<3;i++){
+            Curr_CY_Cal_Vals[i] = AnalogCalibValues[3].split(',')[i];
+        }
+        console.log("Got Analog Calibration Values");
     }
 }
 
@@ -168,19 +181,14 @@ function saveCalibValues(){
 
 
 function requestAnalogCalibration(){
-    sendMSG("RAC");
-    // BLE_Server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
-    // .then(service => {
-    //     return service.getCharacteristic("3b14260a-9781-11ed-a8fc-0242ac120002");
-    // })
-    // .then(characteristic => {
-    //     const value = characteristic.target.value;
-    //     var enc = new TextDecoder("utf-8");
-    //     var readings1 = enc.decode(value).split(':');
-    //     console.log(readings1);
-    //     console.log("Reading analog calibration data enabled");
-        
-    //     return 0;
-    // })
-    // .catch(error => { console.error(error); });
+    if(get_current_cal_flag == 1){
+        sendMSG("RAC");
+        get_current_cal_flag = 2;
+    }
+    else{
+        if(get_current_cal_flag == 2){
+            sendMSG("A");
+            get_current_cal_flag = 1;
+        }
+    }
 }
