@@ -138,23 +138,23 @@ const rdmx0 = 10;
 const rdmy0 = 60;
 Reset_Default_Mapping_Path.rect(rdmx0,rdmy0,140,25);
 
-var A_Button_flag = 1;
-var B_Button_flag = 1;
-var S_Button_flag = 1;
-var D_Button_flag = 1;
-var X_Button_flag = 1;
-var Y_Button_flag = 1;
-var Z_Button_flag = 1;
-var L_Button_flag = 1;
-var R_Button_flag = 1;
+var A_Button_flag = 0;
+var B_Button_flag = 0;
+var S_Button_flag = 0;
+var D_Button_flag = 0;
+var X_Button_flag = 0;
+var Y_Button_flag = 0;
+var Z_Button_flag = 0;
+var L_Button_flag = 0;
+var R_Button_flag = 0;
 
-var Read_Mapping_Button_Flag = 1;
-var Send_Mapping_Button_Flag = 1;
-var Save_Mapping_Button_Flag = 1;
-var Done_Mapping_Button_Flag = 1;
+var Read_Mapping_Button_Flag = 0;
+var Send_Mapping_Button_Flag = 0;
+var Save_Mapping_Button_Flag = 0;
+var Done_Mapping_Button_Flag = 0;
 
 var Redo_Last_Button_Flag = 0;
-var Reset_Default_Mapping_Flag = 1;
+var Reset_Default_Mapping_Flag = 0;
 
 function drawDigital(){
     const canvas = document.getElementById("canvas");
