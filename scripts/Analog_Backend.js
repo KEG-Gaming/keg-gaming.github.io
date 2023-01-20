@@ -39,24 +39,29 @@ var CStickYDeadzone = new Deadzone(0,0,0);
 
 
 function requestAnalogReadings(){
-    inter();
-    var msg = "A";
-    sendMSG(msg);
-    console.log("Requesting analog data");
-    BLE_Server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
-    .then(service => {
-        return service.getCharacteristic("beb5483e-36e1-4688-b7f5-ea07361b26a8");
-    })
-    .then(characteristic => {
-        if (characteristic.properties.notify){
-            ANALOG_CH = characteristic;
-            characteristic.addEventListener("characteristicvaluechanged",handleNewAnalogData);
-            characteristic.startNotifications();
-            console.log("Analog Notifications enabled");
-        }
-        return 0;
-    })
-    .catch(error => { console.error(error); });
+    if(password_correct){
+        inter();
+        var msg = "A";
+        sendMSG(msg);
+        console.log("Requesting analog data");
+        BLE_Server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
+        .then(service => {
+            return service.getCharacteristic("beb5483e-36e1-4688-b7f5-ea07361b26a8");
+        })
+        .then(characteristic => {
+            if (characteristic.properties.notify){
+                ANALOG_CH = characteristic;
+                characteristic.addEventListener("characteristicvaluechanged",handleNewAnalogData);
+                characteristic.startNotifications();
+                console.log("Analog Notifications enabled");
+            }
+            return 0;
+        })
+        .catch(error => { console.error(error); });
+    }
+    else{
+        console.log("Enter Password First");
+    }
 }
 
 async function handleNewAnalogData(event){
