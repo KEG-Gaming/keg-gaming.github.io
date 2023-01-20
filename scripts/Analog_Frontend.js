@@ -182,6 +182,9 @@ function draw() {
             drawButton(ctx,finished_calib_rect);
             drawText(ctx,"Finished",625,49);
         }
+        else{
+            clearInterval(drawInterval);
+        }
         // drawText(ctx,display_msg,30,20);
     }
   }

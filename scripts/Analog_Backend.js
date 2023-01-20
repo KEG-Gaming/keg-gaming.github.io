@@ -15,6 +15,8 @@ var Curr_AY_Cal_Vals = [0,0,0];
 var Curr_CX_Cal_Vals = [0,0,0];
 var Curr_CY_Cal_Vals = [0,0,0];
 
+var ANALOG_CH;
+
 let numCalPoints = 3;
 
 var storeValueButtonFlag = 0;
@@ -47,6 +49,7 @@ function requestAnalogReadings(){
     })
     .then(characteristic => {
         if (characteristic.properties.notify){
+            ANALOG_CH = characteristic;
             characteristic.addEventListener("characteristicvaluechanged",handleNewAnalogData);
             characteristic.startNotifications();
             console.log("Analog Notifications enabled");
@@ -155,8 +158,10 @@ function finishedCalibration(){
     get_current_cal_flag = 0;
     send_calib_flag = 0;
     save_calib_flag = 0;
-    deadzones_flag = 0;
     finished_calib_flag = 0;
+    deadzones_flag = 0;
+    ANALOG_CH.stopNotifications();
+    ANALOG_CH.removeEventListener("characteristicvaluechanged",handleNewAnalogData);
 }
 
 
@@ -212,10 +217,10 @@ function requestAnalogCalibration(){
 
 function editDeadzones(){
     // read input from user
-    const ASXDStr = window.prompt("Enter Analog Stick X-Axis Deadzone\nformat: low, high, value\nenter: 0,0,0 for no deadzone").split(",");
-    const ASYDStr = window.prompt("Enter Analog Stick Y-Axis Deadzone\nformat: low, high, value\nenter: 0,0,0 for no deadzone").split(",");
-    const CSXDStr = window.prompt("Enter C-Stick X-Axis Deadzone\nformat: low, high, value\nenter: 0,0,0 for no deadzone").split(",");
-    const CSYDStr = window.prompt("Enter C-Stick Y-Axis Deadzone\nformat: low, high, value\nenter: 0,0,0 for no deadzone").split(",");
+    const ASXDStr = window.prompt("Enter Analog Stick X-Axis Deadzone\nformat: low, high, value").split(",");
+    const ASYDStr = window.prompt("Enter Analog Stick Y-Axis Deadzone\nformat: low, high, value").split(",");
+    const CSXDStr = window.prompt("Enter C-Stick X-Axis Deadzone\nformat: low, high, value").split(",");
+    const CSYDStr = window.prompt("Enter C-Stick Y-Axis Deadzone\nformat: low, high, value").split(",");
     console.log("Deadzones set to:");
     // convert to integer
     var l = parseInt(ASXDStr[0]);
