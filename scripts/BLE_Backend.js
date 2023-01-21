@@ -2,6 +2,7 @@ var BLE_Server;
 var currently_sending;
 var PASSWORD_CH;
 var password_correct = 0;
+var in_window_index = 0;
 
 function isWebBluetoothEnabled() {
     // this is what generates the BLE pop up searching window

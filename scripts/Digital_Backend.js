@@ -11,8 +11,11 @@ var second_clicked = "";
 var num_clicked = 0;
 
 function requestDigitalReadings(){
-    if(password_correct){
+    // if(password_correct){
+    if(in_window_index != 2){
+        finishedCalibration();
         DigitalInter();
+        in_window_index = 2;
         var msg = "D";
         sendMSG(msg);
         console.log("Requesting digital data");
@@ -34,6 +37,7 @@ function requestDigitalReadings(){
     else{
         console.log("Enter Password First");
     }
+// }
 }
 
 
@@ -75,9 +79,10 @@ function finishedDigitalSettings(){
     Reset_Default_Mapping_Flag = 0;
 
     num_clicked = 0;
-    Redo_Last_Button_Flag = 0;
     first_clicked = "";
     second_clicked = "";
+
+    in_window_index = 0;
 
     try{
         DIGITAL_CH.stopNotifications();

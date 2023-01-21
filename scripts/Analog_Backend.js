@@ -39,8 +39,11 @@ var CStickYDeadzone = new Deadzone(0,0,0);
 
 
 function requestAnalogReadings(){
-    if(password_correct){
+    // if(password_correct){
+    if(in_window_index != 1){
+        finishedDigitalSettings();
         inter();
+        in_window_index = 1;
         var msg = "A";
         sendMSG(msg);
         console.log("Requesting analog data");
@@ -62,6 +65,7 @@ function requestAnalogReadings(){
     else{
         console.log("Enter Password First");
     }
+// }
 }
 
 async function handleNewAnalogData(event){
@@ -164,9 +168,20 @@ function finishedCalibration(){
     send_calib_flag = 0;
     save_calib_flag = 0;
     finished_calib_flag = 0;
+    store_val_flag = 0;
+    done_calib_flag = 0;
+    redo_last_store_flag = 0;
     deadzones_flag = 0;
-    ANALOG_CH.stopNotifications();
-    ANALOG_CH.removeEventListener("characteristicvaluechanged",handleNewAnalogData);
+
+    in_window_index = 0;
+
+    try{
+        ANALOG_CH.stopNotifications();
+        ANALOG_CH.removeEventListener("characteristicvaluechanged",handleNewAnalogData);
+    }
+    catch(err){
+        console.log(err.message);
+    }
 }
 
 

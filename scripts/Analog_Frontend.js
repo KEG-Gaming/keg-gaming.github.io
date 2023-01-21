@@ -10,7 +10,9 @@ var analog_stick_Y;
 var c_stick_X;
 var c_stick_Y;
 
-document.body.style.backgroundColor = "#495096";
+// document.body.style.backgroundColor = "#495096";
+document.body.style.backgroundImage = "linear-gradient(to right, " + "#343A70" + ", " + "#646CB7" + ")";
+
 
 var drawInterval;
 
@@ -85,8 +87,8 @@ function draw() {
                 analog_stick_Y = oY+R*analog_stick_cal_Y_shifts[storageCounter];
                 ctx.arc(analog_stick_X, analog_stick_Y, R-15, 0, Math.PI * 2, true); // Outer circle
                 ctx.stroke();
-                drawText(ctx,"X = " + currentAX.toString(),oX+R-30,oY+R+30);
-                drawText(ctx,"Y = " + currentAY.toString(),oX+R-30,oY+R+60);
+                drawText(ctx,"X = " + currentAX.toString(),oX+R-25,oY+R+40);
+                drawText(ctx,"Y = " + currentAY.toString(),oX+R-25,oY+R+70);
             }
             else{
                 ctx.lineWidth = 5;
@@ -95,8 +97,8 @@ function draw() {
                 analog_stick_Y = oY+R*(1/2-mapStickVals(Curr_AY_Cal_Vals[0], Curr_AY_Cal_Vals[1],Curr_AY_Cal_Vals[2], currentAY,AnalogStickYDeadzone)/255);
                 ctx.arc(analog_stick_X, analog_stick_Y, R-15, 0, Math.PI * 2, true); // Outer circle
                 ctx.stroke();
-                drawText(ctx,"X = " + Math.round(mapStickVals(Curr_AX_Cal_Vals[0], Curr_AX_Cal_Vals[1],Curr_AX_Cal_Vals[2], currentAX,AnalogStickXDeadzone)).toString(),oX+R-30,oY+R+30);
-                drawText(ctx,"Y = " + Math.round(mapStickVals(Curr_AY_Cal_Vals[0], Curr_AY_Cal_Vals[1],Curr_AY_Cal_Vals[2], currentAY,AnalogStickYDeadzone)).toString(),oX+R-30,oY+R+60);
+                drawText(ctx,"X = " + Math.round(mapStickVals(Curr_AX_Cal_Vals[0], Curr_AX_Cal_Vals[1],Curr_AX_Cal_Vals[2], currentAX,AnalogStickXDeadzone)).toString(),oX+R-25,oY+R+40);
+                drawText(ctx,"Y = " + Math.round(mapStickVals(Curr_AY_Cal_Vals[0], Curr_AY_Cal_Vals[1],Curr_AY_Cal_Vals[2], currentAY,AnalogStickYDeadzone)).toString(),oX+R-25,oY+R+70);
             }
         }
 
@@ -120,8 +122,8 @@ function draw() {
                 c_stick_Y = oY+R*c_stick_cal_Y_shifts[storageCounter];
                 ctx.arc(c_stick_X, c_stick_Y, R-20, 0, Math.PI * 2, true); // Outer circle
                 ctx.stroke();
-                drawText(ctx,"X = " + currentCX.toString(),oX+R-30,oY+R+30);
-                drawText(ctx,"Y = " + currentCY.toString(),oX+R-30,oY+R+60);
+                drawText(ctx,"X = " + currentCX.toString(),oX+R-25,oY+R+40);
+                drawText(ctx,"Y = " + currentCY.toString(),oX+R-25,oY+R+70);
             }
             else{
                 ctx.lineWidth = 5;
@@ -130,8 +132,8 @@ function draw() {
                 c_stick_Y = oY+R*(1/2-mapStickVals(Curr_CY_Cal_Vals[0], Curr_CY_Cal_Vals[1],Curr_CY_Cal_Vals[2], currentCY, CStickYDeadzone)/255);
                 ctx.arc(c_stick_X, c_stick_Y, R-20, 0, Math.PI * 2, true); // Outer circle
                 ctx.stroke();
-                drawText(ctx,"X = " + Math.round(mapStickVals(Curr_CX_Cal_Vals[0], Curr_CX_Cal_Vals[1],Curr_CX_Cal_Vals[2], currentCX, CStickXDeadzone)).toString(),oX+R-30,oY+R+30);
-                drawText(ctx,"Y = " + Math.round(mapStickVals(Curr_CY_Cal_Vals[0], Curr_CY_Cal_Vals[1],Curr_CY_Cal_Vals[2], currentCY, CStickYDeadzone)).toString(),oX+R-30,oY+R+60);
+                drawText(ctx,"X = " + Math.round(mapStickVals(Curr_CX_Cal_Vals[0], Curr_CX_Cal_Vals[1],Curr_CX_Cal_Vals[2], currentCX, CStickXDeadzone)).toString(),oX+R-25,oY+R+40);
+                drawText(ctx,"Y = " + Math.round(mapStickVals(Curr_CY_Cal_Vals[0], Curr_CY_Cal_Vals[1],Curr_CY_Cal_Vals[2], currentCY, CStickYDeadzone)).toString(),oX+R-25,oY+R+70);
             }
         }
 
@@ -229,7 +231,7 @@ function inter(){
     get_current_cal_flag = 1;
     send_calib_flag = 1;
     save_calib_flag = 1;
-    deadzones_flag = 1;
+    // deadzones_flag = 1; // ADD THIS BACK IF YOU WANT DEADZONE CALIBRATION
     finished_calib_flag = 1;
     drawInterval = setInterval(draw, 10); // calls draw every 10 ms
 }
