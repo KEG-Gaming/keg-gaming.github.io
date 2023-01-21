@@ -99,7 +99,7 @@ Y_Button_Path.lineTo(yx0,yy0);
 
 const zx0 = 435;
 const zy0 = 220;
-Z_Button_Path.roundRect(zx0,zy0,90,25,8);
+Z_Button_Path.rect(zx0,zy0,90,25,8);
 
 const lx0 = 50;
 const ly0 = 200;
