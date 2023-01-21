@@ -75,6 +75,10 @@ function draw() {
 
             ctx.lineWidth = 13;
             ctx.strokeStyle = `rgb(255,255,255)`;
+            if(storageCounter >= 6 && store_val_flag){
+                ctx.strokeStyle = `rgb(255,255,255,0.5)`;
+            }
+            
 
             drawOctogon(ctx,R,oX,oY);
             pop_analog_stick_bound_rect(R,oX,oY);
@@ -110,6 +114,9 @@ function draw() {
 
             ctx.lineWidth = 13;
             ctx.strokeStyle = `rgb(250,245,6)`;
+            if(storageCounter < 6 && store_val_flag){
+                ctx.strokeStyle = `rgb(250,245,6,0.5)`;
+            }
 
             drawOctogon(ctx,R,oX,oY);
             pop_c_stick_bound_rect(R,oX,oY);
