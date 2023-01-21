@@ -33,10 +33,10 @@ const save_deadzones_rect = new Path2D();
 store_value_rect.rect(10,120,120,25);
 redo_last_rect.rect(150,120,120,25);
 done_calib_rect.rect(290,120,120,25);
-get_current_cal_rect.rect(10,30,160,25);
-send_calib_rect.rect(200,30,160,25);
-save_calib_rect.rect(390,30,160,25);
-finished_calib_rect.rect(580,30,160,25);
+get_current_cal_rect.rect(5,30,160,25);
+send_calib_rect.rect(180,30,160,25);
+save_calib_rect.rect(355,30,160,25);
+finished_calib_rect.rect(530,30,160,25);
 deadzones_rect.rect(10,75,120,25);
 send_deadzones_rect.rect(150,75,120,25);
 save_deadzones_rect.rect(290,75,120,25);
@@ -71,7 +71,7 @@ function draw() {
             // making the analog stick gates
             var R = 60;
             var oX = 100;
-            var oY = 270;
+            var oY = 240;
 
             ctx.lineWidth = 13;
             ctx.strokeStyle = `rgb(255,255,255)`;
@@ -106,7 +106,7 @@ function draw() {
             // making the c-stick gates
             var R = 50;
             var oX = 400;
-            var oY = 320;
+            var oY = 250;
 
             ctx.lineWidth = 13;
             ctx.strokeStyle = `rgb(250,245,6)`;
@@ -158,19 +158,19 @@ function draw() {
         }
         if(get_current_cal_flag == 1){
             drawButton(ctx,get_current_cal_rect);
-            drawText(ctx,"Read Calibration",13,49);
+            drawText(ctx,"Read Calibration",8,49);
         }
         if(get_current_cal_flag == 2){
             drawButton(ctx,get_current_cal_rect);
-            drawText(ctx,"Read Analog",13,49);
+            drawText(ctx,"Read Analog",8,49);
         }
         if(send_calib_flag){
             drawButton(ctx,send_calib_rect);
-            drawText(ctx,"Send Calibration",203,49);
+            drawText(ctx,"Send Calibration",183,49);
         }
         if(save_calib_flag){
             drawButton(ctx,save_calib_rect);
-            drawText(ctx,"Save Calibration",393,49);
+            drawText(ctx,"Save Calibration",360,49);
         }
         if(deadzones_flag){
             drawButton(ctx,deadzones_rect);
@@ -182,7 +182,7 @@ function draw() {
         }
         if(finished_calib_flag){
             drawButton(ctx,finished_calib_rect);
-            drawText(ctx,"Finished",625,49);
+            drawText(ctx,"Finished",570,49);
         }
         else{
             clearInterval(drawInterval);
