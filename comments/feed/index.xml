@@ -8,32 +8,14 @@
 <channel>
 	<title>
 	Comments for K.E.G. Gaming	</title>
-	<atom:link href="https://keg-gaming.github.io/comments/feed/?simply_static_page=129" rel="self" type="application/rss+xml" />
+	<atom:link href="https://keg-gaming.github.io/comments/feed/?simply_static_page=231" rel="self" type="application/rss+xml" />
 	<link>https://keg-gaming.github.io/</link>
 	<description></description>
-	<lastBuildDate>Wed, 18 Jan 2023 00:10:02 +0000</lastBuildDate>
+	<lastBuildDate>Wed, 25 Jan 2023 22:09:36 +0000</lastBuildDate>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
 	<sy:updateFrequency>
 	1	</sy:updateFrequency>
 	<generator>https://wordpress.org/?v=6.1.1</generator>
-	<item>
-		<title>
-		Comment on Hello world! by A WordPress Commenter		</title>
-		<link>https://keg-gaming.github.io/hello-world/#comment-1</link>
-
-		<dc:creator><![CDATA[A WordPress Commenter]]></dc:creator>
-		<pubDate>Wed, 18 Jan 2023 00:10:02 +0000</pubDate>
-		<guid isPermaLink="false">https://keg-gaming.github.io/?p=1#comment-1</guid>
-
-					<description><![CDATA[Hi, this is a comment.
-To get started with moderating, editing, and deleting comments, please visit the Comments screen in the dashboard.
-Commenter avatars come from &lt;a href=&quot;https://en.gravatar.com/&quot;&gt;Gravatar&lt;/a&gt;.]]></description>
-			<content:encoded><![CDATA[<p>Hi, this is a comment.<br />
-To get started with moderating, editing, and deleting comments, please visit the Comments screen in the dashboard.<br />
-Commenter avatars come from <a href="https://en.gravatar.com/">Gravatar</a>.</p>
-]]></content:encoded>
-		
-			</item>
-	</channel>
+</channel>
 </rss>
