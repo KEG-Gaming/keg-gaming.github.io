@@ -1,6 +1,5 @@
-// document.addEventListener('click', parseScreenClick, false);
-let touchEvent = 'ontouchstart' in window ? 'touchstart' : 'click';
-document.addEventListener(touchEvent, parseScreenClick, false);
+document.addEventListener('click', parseScreenClick, false);
+document.addEventListener('click tap', parseScreenClick, false);
 // const canvas1 = document.getElementById("canvas");
 
 var store_rect_interval;
