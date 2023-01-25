@@ -34,7 +34,7 @@ function isWebBluetoothEnabled() {
         return 0;
     })
     .then(server => { /* … */ })
-    .catch(error => { console.error(error); });
+    .catch(error => { console.log(error); });
 }
 
 

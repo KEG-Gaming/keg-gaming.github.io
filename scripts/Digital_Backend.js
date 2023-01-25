@@ -12,32 +12,32 @@ var num_clicked = 0;
 
 function requestDigitalReadings(){
     // if(password_correct){
-    if(in_window_index != 2){
-        finishedCalibration();
-        DigitalInter();
-        in_window_index = 2;
-        var msg = "D";
-        sendMSG(msg);
-        console.log("Requesting digital data");
-        BLE_Server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
-        .then(service => {
-            return service.getCharacteristic("beb5483e-36e1-4688-b7f5-ea07361b26a8");
-        })
-        .then(characteristic => {
-            if (characteristic.properties.notify){
-                DIGITAL_CH = characteristic;
-                characteristic.addEventListener("characteristicvaluechanged",handleNewDigitalData);
-                characteristic.startNotifications();
-                console.log("Digital Notifications enabled");
-            }
-            return 0;
-        })
-        .catch(error => { console.error(error); });
-    }
+        if(in_window_index != 2){
+            finishedCalibration();
+            DigitalInter();
+            in_window_index = 2;
+            var msg = "D";
+            sendMSG(msg);
+            console.log("Requesting digital data");
+            BLE_Server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
+            .then(service => {
+                return service.getCharacteristic("beb5483e-36e1-4688-b7f5-ea07361b26a8");
+            })
+            .then(characteristic => {
+                if (characteristic.properties.notify){
+                    DIGITAL_CH = characteristic;
+                    characteristic.addEventListener("characteristicvaluechanged",handleNewDigitalData);
+                    characteristic.startNotifications();
+                    console.log("Digital Notifications enabled");
+                }
+                return 0;
+            })
+            .catch(error => { console.error(error); });
+        }
+    // }
     else{
         console.log("Enter Password First");
     }
-// }
 }
 
 

@@ -1,6 +1,11 @@
 
 var digiDrawInterval;
 
+const Digital_Instructions = [
+    "Click 2 buttons in sequence to swap them",
+    "Click the same button twice to toggle it"
+];
+
 const A_Button_Path = new Path2D();
 const B_Button_Path = new Path2D();
 const S_Button_Path = new Path2D();
@@ -32,19 +37,19 @@ const Redo_Last_Button_Path = new Path2D();
 const Reset_Default_Mapping_Path = new Path2D();
 
 const ax0 = 435;
-const ay0 = 350;
+const ay0 = 350 + 200;
 A_Button_Path.arc(ax0,ay0,40,0,Math.PI*2,true);
 
 const bx0 = 370;
-const by0 = 410;
+const by0 = ay0+60;
 B_Button_Path.arc(bx0,by0,20,0,Math.PI*2,true);
 
 const sx0 = 280;
-const sy0 = 350;
+const sy0 = ay0;
 S_Button_Path.arc(sx0,sy0,10,0,Math.PI*2,true);
 
 const dux0 = 120;
-const duy0 = 410;
+const duy0 = by0;
 DU_Button_Path.rect(dux0,duy0,20,20);
 
 const drx0 = dux0+20;
@@ -82,7 +87,7 @@ DLT_Path.lineTo(dlx0+17,dly0+16);
 DCC_Path.arc(dcx0+10,dcy0+10,8,0,Math.PI*2,true);
 
 const xx0 = 490;
-const xy0 = 335;
+const xy0 = ay0-15;
 X_Button_Path.moveTo(xx0,xy0);
 X_Button_Path.arc(xx0+15,xy0,15,Math.PI,0,false);
 X_Button_Path.lineTo(xx0+30,xy0+50);
@@ -90,7 +95,7 @@ X_Button_Path.arc(xx0+15,xy0+50,15,0,Math.PI,false);
 X_Button_Path.lineTo(xx0,xy0);
 
 const yx0 = 420;
-const yy0 = 295;
+const yy0 = ay0-55;
 Y_Button_Path.moveTo(yx0,yy0);
 Y_Button_Path.arc(yx0,yy0-15,15,Math.PI/2,3*Math.PI/2,false);
 Y_Button_Path.lineTo(yx0+50,yy0-30);
@@ -98,11 +103,11 @@ Y_Button_Path.arc(yx0+50,yy0-15,15,3*Math.PI/2,Math.PI/2,false);
 Y_Button_Path.lineTo(yx0,yy0);
 
 const zx0 = 435;
-const zy0 = 220;
+const zy0 = ay0-130;
 Z_Button_Path.rect(zx0,zy0,90,25,8);
 
 const lx0 = 50;
-const ly0 = 200;
+const ly0 = ay0-150;
 L_Button_Path.moveTo(lx0,ly0);
 L_Button_Path.lineTo(lx0,ly0-70);
 L_Button_Path.arc(lx0+30,ly0-70,30,Math.PI,0,false);
@@ -110,33 +115,33 @@ L_Button_Path.lineTo(lx0+60,ly0);
 L_Button_Path.lineTo(lx0,ly0);
 
 const rx0 = 450;
-const ry0 = 200;
+const ry0 = ly0;
 R_Button_Path.moveTo(rx0,ry0);
 R_Button_Path.lineTo(rx0,ry0-70);
 R_Button_Path.arc(rx0+30,ry0-70,30,Math.PI,0,false);
 R_Button_Path.lineTo(rx0+60,ry0);
 R_Button_Path.lineTo(rx0,ry0);
 
-const rmx0 = 10;
-const rmy0 = 20;
-Read_Mapping_Button_Path.rect(rmx0,rmy0,140,25);
+const rmx0 = 5;
+const rmy0 = 30;
+Read_Mapping_Button_Path.rect(rmx0,rmy0,button_w,button_h);
 
-const snmx0 = rmx0+150;
-Send_Mapping_Button_Path.rect(snmx0,rmy0,140,25);
+const snmx0 = rmx0+175;
+Send_Mapping_Button_Path.rect(snmx0,rmy0,button_w,button_h);
 
-const svmx0 = snmx0+150;
-Save_Mapping_Button_Path.rect(svmx0,rmy0,140,25);
+const svmx0 = snmx0+175;
+Save_Mapping_Button_Path.rect(svmx0,rmy0,button_w,button_h);
 
-const dmx0 = svmx0+150;
-Done_Mapping_Button_Path.rect(dmx0,rmy0,140,25);
+const dmx0 = svmx0+175;
+Done_Mapping_Button_Path.rect(dmx0,rmy0,button_w,button_h);
 
 const rlbx0 = 200;
-const rlby0 = 80;
-Redo_Last_Button_Path.rect(rlbx0,rlby0,140,25);
+const rlby0 = 200;
+Redo_Last_Button_Path.rect(rlbx0,rlby0,button_w,button_h);
 
-const rdmx0 = 10;
-const rdmy0 = 60;
-Reset_Default_Mapping_Path.rect(rdmx0,rdmy0,140,25);
+const rdmx0 = 5;
+const rdmy0 = 200;
+Reset_Default_Mapping_Path.rect(rdmx0,rdmy0,button_w,button_h);
 
 var A_Button_flag = 0;
 var B_Button_flag = 0;
@@ -274,27 +279,34 @@ function drawDigital(){
         // Start Generate IO Buttons
         if(Read_Mapping_Button_Flag){
             drawButton(ctx,Read_Mapping_Button_Path);
-            drawText(ctx,"Read Mapping", rmx0+5, rmy0+20);
+            drawText(ctx,"Read", rmx0+45, rmy0+25);
+            drawText(ctx,"Mapping", rmx0+25, rmy0+55);
+
+            drawText(ctx,Digital_Instructions[0], 10, 140); // some instructions
+            drawText(ctx,Digital_Instructions[1], 10, 170); // some instructions
         }
         if(Send_Mapping_Button_Flag){
             drawButton(ctx,Send_Mapping_Button_Path);
-            drawText(ctx,"Send Mapping", snmx0+5, rmy0+20);
+            drawText(ctx,"Send", snmx0+45, rmy0+25);
+            drawText(ctx,"Mapping", snmx0+25, rmy0+55);
         }
         if(Save_Mapping_Button_Flag){
             drawButton(ctx,Save_Mapping_Button_Path);
-            drawText(ctx,"Save Mapping", svmx0+5, rmy0+20);
+            drawText(ctx,"Save", svmx0+45, rmy0+25);
+            drawText(ctx,"Mapping", svmx0+25, rmy0+55);
         }
         if(Redo_Last_Button_Flag){
             drawButton(ctx,Redo_Last_Button_Path);
-            drawText(ctx,"Redo Last", rlbx0, rlby0+20);
+            drawText(ctx,"Redo Last", rlbx0+10, rlby0+40);
         }
         if(Reset_Default_Mapping_Flag){
             drawButton(ctx,Reset_Default_Mapping_Path);
-            drawText(ctx,"Reset", rdmx0, rdmy0+20);
+            drawText(ctx,"Reset", rdmx0+40, rdmy0+40);
         }
         if(Done_Mapping_Button_Flag){
             drawButton(ctx,Done_Mapping_Button_Path);
-            drawText(ctx,"Done Mapping", dmx0+5, rmy0+20);
+            drawText(ctx,"Done", dmx0+45, rmy0+25);
+            drawText(ctx,"Mapping", dmx0+25, rmy0+55);
         }
         else{
             clearInterval(digiDrawInterval);
