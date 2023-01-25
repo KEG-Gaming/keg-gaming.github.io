@@ -2,18 +2,20 @@
 <html lang="en-US" dir="ltr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=0.5" />
     <link rel="shortcut icon" href="https://c.s-microsoft.com/favicon.ico?v2" />
-    <title>Bluetooth Pairing</title>
+    <title>Controller Settings</title>
   </head>
   <body>
-    <h1>Bluetooth Pairing</h1>
+    <h1>Controller Settings</h1>
 
-    <button onclick="isWebBluetoothEnabled()">Establish Connection</button>
-    <button onclick="requestAnalogReadings()">Calibrate Analog Sticks</button>
-    <!-- <button onclick="sendStickCalibration()">Send Stick Calibration Values</button> -->
-    <button onclick="getPassword()">Enter Password</button>
-    <!-- <button onclick="saveCalibValues()">Save Calibration</button> -->
+    <button style="font-size : 28px;height:50px;width:140px" onclick="isWebBluetoothEnabled()">Connect</button>
+    <button style="font-size : 28px;height:50px;width:140px" onclick="getPassword()">Password</button>
+    <button style="font-size : 28px;height:50px;width:140px" onclick="enableWifiUpload()">Update</button>
+    <button style="font-size : 28px;height:50px;width:140px" onclick="requestAnalogReadings()">Analog</button>
+    <button style="font-size : 28px;height:50px;width:140px" onclick="requestDigitalReadings()">Digital</button>
+    
+    
 
     <p id="demo"></p>
 
@@ -22,6 +24,9 @@
     <script src="/../scripts/Analog_Backend.js"></script>
     <script src="/../scripts/Analog_Click_Backend.js"></script>
     <script src="/../scripts/Password_Entry_Backend.js"></script>
+    <script src="/../scripts/Digital_Frontend.js"></script>
+    <script src="/../scripts/Digital_Backend.js"></script>
+    <script src="/../scripts/Wifi_Backend.js"></script>
 
     <canvas id="canvas" width="150" height="150"></canvas>
 

@@ -15,31 +15,57 @@ var Curr_AY_Cal_Vals = [0,0,0];
 var Curr_CX_Cal_Vals = [0,0,0];
 var Curr_CY_Cal_Vals = [0,0,0];
 
+var ANALOG_CH;
+
 let numCalPoints = 3;
 
 var storeValueButtonFlag = 0;
 
+// Defines the deadzone class
+// a deadzone maps all values between the lower and upper bounds (low and high) inclusive to the specified value
+// value should be between low and high inclusive
+class Deadzone {
+    constructor(low, high, value) {
+      this.low = low;
+      this.high = high;
+      this.value = value;
+    }
+  }
 
+var AnalogStickXDeadzone = new Deadzone(0,0,0);
+var AnalogStickYDeadzone = new Deadzone(0,0,0);
+var CStickXDeadzone = new Deadzone(0,0,0);
+var CStickYDeadzone = new Deadzone(0,0,0);
 
 
 function requestAnalogReadings(){
-    inter();
-    var msg = "A";
-    sendMSG(msg);
-    console.log("Requesting analog data");
-    BLE_Server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
-    .then(service => {
-        return service.getCharacteristic("beb5483e-36e1-4688-b7f5-ea07361b26a8");
-    })
-    .then(characteristic => {
-        if (characteristic.properties.notify){
-            characteristic.addEventListener("characteristicvaluechanged",handleNewAnalogData);
-            characteristic.startNotifications();
-            console.log("Analog Notifications enabled");
+    // if(password_correct){
+        if(in_window_index != 1){
+            finishedDigitalSettings();
+            inter();
+            in_window_index = 1;
+            var msg = "A";
+            sendMSG(msg);
+            console.log("Requesting analog data");
+            BLE_Server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
+            .then(service => {
+                return service.getCharacteristic("beb5483e-36e1-4688-b7f5-ea07361b26a8");
+            })
+            .then(characteristic => {
+                if (characteristic.properties.notify){
+                    ANALOG_CH = characteristic;
+                    characteristic.addEventListener("characteristicvaluechanged",handleNewAnalogData);
+                    characteristic.startNotifications();
+                    console.log("Analog Notifications enabled");
+                }
+                return 0;
+            })
+            .catch(error => { console.error(error); });
         }
-        return 0;
-    })
-    .catch(error => { console.error(error); });
+    // }
+    else{
+        console.log("Enter Password First");
+    }
 }
 
 async function handleNewAnalogData(event){
@@ -52,12 +78,25 @@ async function handleNewAnalogData(event){
         currentAY = parseInt(AnalogValues[1]);
         currentCX = parseInt(AnalogValues[2]);
         currentCY = parseInt(AnalogValues[3]);
-        console.log(currentAX);
-        console.log(currentAY);
-        console.log("");
+        // console.log(currentAX);
+        // console.log(currentAY);
+        // console.log("");
     }
     else{
-        console.log(str3);
+        var AnalogCalibValues = enc.decode(value).split(':');
+        for(let i=0;i<3;i++){
+            Curr_AX_Cal_Vals[i] = AnalogCalibValues[0].split(',')[i];
+        }
+        for(let i=0;i<3;i++){
+            Curr_AY_Cal_Vals[i] = AnalogCalibValues[1].split(',')[i];
+        }
+        for(let i=0;i<3;i++){
+            Curr_CX_Cal_Vals[i] = AnalogCalibValues[2].split(',')[i];
+        }
+        for(let i=0;i<3;i++){
+            Curr_CY_Cal_Vals[i] = AnalogCalibValues[3].split(',')[i];
+        }
+        console.log("Got Analog Calibration Values");
     }
 }
 
@@ -129,6 +168,20 @@ function finishedCalibration(){
     send_calib_flag = 0;
     save_calib_flag = 0;
     finished_calib_flag = 0;
+    store_val_flag = 0;
+    done_calib_flag = 0;
+    redo_last_store_flag = 0;
+    deadzones_flag = 0;
+
+    in_window_index = 0;
+
+    try{
+        ANALOG_CH.stopNotifications();
+        ANALOG_CH.removeEventListener("characteristicvaluechanged",handleNewAnalogData);
+    }
+    catch(err){
+        console.log(err.message);
+    }
 }
 
 
@@ -168,19 +221,136 @@ function saveCalibValues(){
 
 
 function requestAnalogCalibration(){
-    sendMSG("RAC");
-    // BLE_Server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
-    // .then(service => {
-    //     return service.getCharacteristic("3b14260a-9781-11ed-a8fc-0242ac120002");
-    // })
-    // .then(characteristic => {
-    //     const value = characteristic.target.value;
-    //     var enc = new TextDecoder("utf-8");
-    //     var readings1 = enc.decode(value).split(':');
-    //     console.log(readings1);
-    //     console.log("Reading analog calibration data enabled");
-        
-    //     return 0;
-    // })
-    // .catch(error => { console.error(error); });
+    if(get_current_cal_flag == 1){
+        sendMSG("RAC");
+        get_current_cal_flag = 2;
+    }
+    else{
+        if(get_current_cal_flag == 2){
+            sendMSG("A");
+            get_current_cal_flag = 1;
+        }
+    }
+}
+
+
+
+function editDeadzones(){
+    // read input from user
+    const ASXDStr = window.prompt("Enter Analog Stick X-Axis Deadzone\nformat: low, high, value").split(",");
+    const ASYDStr = window.prompt("Enter Analog Stick Y-Axis Deadzone\nformat: low, high, value").split(",");
+    const CSXDStr = window.prompt("Enter C-Stick X-Axis Deadzone\nformat: low, high, value").split(",");
+    const CSYDStr = window.prompt("Enter C-Stick Y-Axis Deadzone\nformat: low, high, value").split(",");
+    console.log("Deadzones set to:");
+    // convert to integer
+    var l = parseInt(ASXDStr[0]);
+    var h = parseInt(ASXDStr[1]);
+    var v = parseInt(ASXDStr[2]);
+    // make sure all inputs read ok
+    if(!isNaN(l)&&!isNaN(h)&&!isNaN(v)){
+        if(l>h){
+            console.log("Analog X low bound of " + l + " is larger than the high bound of " + h);
+        }
+        else if(v>h || v<l){
+            console.log("Analog X deadzone value of " + v + " is not within the given bounds [" + l + "," + h +"]");
+        }
+        else if(l <0 || h > 255){
+            console.log("Analog X deadzone bounds [" + l + "," + h +"] exceed controller limits [0,255]");
+        }
+        else{
+            AnalogStickXDeadzone.low = l;
+            AnalogStickXDeadzone.high = h;
+            AnalogStickXDeadzone.value = v;
+            console.log("AX = " + l + ", " + h + ", " + v);
+        }
+    }
+    else{
+        console.log("One or more Analog Stick X deadzone values were not integers");
+    }
+    // repeat
+    l = parseInt(ASYDStr[0]);
+    h = parseInt(ASYDStr[1]);
+    v = parseInt(ASYDStr[2]);
+    if(!isNaN(l)&&!isNaN(h)&&!isNaN(v)){
+        if(l>h){
+            console.log("Analog Y low bound of " + l + " is larger than the high bound of " + h);
+        }
+        else if(v>h || v<l){
+            console.log("Analog Y deadzone value of " + v + " is not within the given bounds [" + l + "," + h +"]");
+        }
+        else if(l <0 || h > 255){
+            console.log("Analog Y deadzone bounds [" + l + "," + h +"] exceed controller limits [0,255]");
+        }
+        else{
+            AnalogStickYDeadzone.low = l;
+            AnalogStickYDeadzone.high = h;
+            AnalogStickYDeadzone.value = v;
+            console.log("AY = " + l + ", " + h + ", " + v);
+        }
+    }
+    else{
+        console.log("One or more Analog Stick Y deadzone values were not integers");
+    }
+    l = parseInt(CSXDStr[0]);
+    h = parseInt(CSXDStr[1]);
+    v = parseInt(CSXDStr[2]);
+    if(!isNaN(l)&&!isNaN(h)&&!isNaN(v)){
+        if(l>h){
+            console.log("C-Stick X low bound of " + l + " is larger than the high bound of " + h);
+        }
+        else if(v>h || v<l){
+            console.log("C-Stick X deadzone value of " + v + " is not within the given bounds [" + l + "," + h +"]");
+        }
+        else if(l <0 || h > 255){
+            console.log("C-Stick X deadzone bounds [" + l + "," + h +"] exceed controller limits [0,255]");
+        }
+        else{
+            CStickXDeadzone.low = l;
+            CStickXDeadzone.high = h;
+            CStickXDeadzone.value = v;
+            console.log("CX = " + l + ", " + h + ", " + v);
+        }
+    }
+    else{
+        console.log("One or more C-Stick X deadzone values were not integers");
+    }
+    l = parseInt(CSYDStr[0]);
+    h = parseInt(CSYDStr[1]);
+    v = parseInt(CSYDStr[2]);
+    if(!isNaN(l)&&!isNaN(h)&&!isNaN(v)){
+        if(l>h){
+            console.log("C-Stick Y low bound of " + l + " is larger than the high bound of " + h);
+        }
+        else if(v>h || v<l){
+            console.log("C-Stick Y deadzone value of " + v + " is not within the given bounds [" + l + "," + h +"]");
+        }
+        else if(l <0 || h > 255){
+            console.log("C-Stick Y deadzone bounds [" + l + "," + h +"] exceed controller limits [0,255]");
+        }
+        else{
+            CStickYDeadzone.low = l;
+            CStickYDeadzone.high = h;
+            CStickYDeadzone.value = v;
+            console.log("CY = " + l + ", " + h + ", " + v);
+        }
+    }
+    else{
+        console.log("One or more C-Stick Y deadzone values were not integers");
+    }
+}
+
+function sendStickDeadzones(){
+    console.log("Sending Stick Deadzone Settings");
+
+    var msg = "";
+    msg = msg + String(AnalogStickXDeadzone.low).padStart(3, '0') + "," + String(AnalogStickXDeadzone.high).padStart(3, '0') + "," + String(AnalogStickXDeadzone.value).padStart(3, '0') + ":";
+    msg = msg + String(AnalogStickYDeadzone.low).padStart(3, '0') + "," + String(AnalogStickYDeadzone.high).padStart(3, '0') + "," + String(AnalogStickYDeadzone.value).padStart(3, '0') + ":";
+    msg = msg + String(CStickXDeadzone.low).padStart(3, '0') + "," + String(CStickXDeadzone.high).padStart(3, '0') + "," + String(CStickXDeadzone.value).padStart(3, '0') + ":";
+    msg = msg + String(CStickYDeadzone.low).padStart(3, '0') + "," + String(CStickYDeadzone.high).padStart(3, '0') + "," + String(CStickYDeadzone.value).padStart(3, '0');
+    
+    sendMSG(msg);
+}
+
+function saveStickDeadzones(){
+    sendMSG("SSD");
 }
