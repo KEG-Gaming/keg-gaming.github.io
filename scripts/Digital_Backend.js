@@ -11,7 +11,7 @@ var second_clicked = "";
 var num_clicked = 0;
 
 function requestDigitalReadings(){
-    // if(password_correct){
+    if(password_correct){
         if(in_window_index != 2){
             finishedCalibration();
             DigitalInter();
@@ -34,9 +34,10 @@ function requestDigitalReadings(){
             })
             .catch(error => { console.error(error); });
         }
-    // }
+    }
     else{
         console.log("Enter Password First");
+        document.getElementById("on screen information").innerHTML = "Enter Password First";
     }
 }
 
@@ -69,6 +70,8 @@ function finishedDigitalSettings(){
     Z_Button_flag = 0;
     L_Button_flag = 0;
     R_Button_flag = 0;
+
+    Draw_Tags_Flag = 0;
 
     Read_Mapping_Button_Flag = 0;
     Send_Mapping_Button_Flag = 0;

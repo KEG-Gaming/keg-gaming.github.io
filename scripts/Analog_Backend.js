@@ -39,7 +39,7 @@ var CStickYDeadzone = new Deadzone(0,0,0);
 
 
 function requestAnalogReadings(){
-    // if(password_correct){
+    if(password_correct){
         if(in_window_index != 1){
             finishedDigitalSettings();
             inter();
@@ -62,9 +62,10 @@ function requestAnalogReadings(){
             })
             .catch(error => { console.error(error); });
         }
-    // }
+    }
     else{
         console.log("Enter Password First");
+        document.getElementById("on screen information").innerHTML = "Enter Password First";
     }
 }
 
@@ -97,6 +98,7 @@ async function handleNewAnalogData(event){
             Curr_CY_Cal_Vals[i] = AnalogCalibValues[3].split(',')[i];
         }
         console.log("Got Analog Calibration Values");
+        document.getElementById("on screen information").innerHTML = "Got Analog Calibration Values";
     }
 }
 

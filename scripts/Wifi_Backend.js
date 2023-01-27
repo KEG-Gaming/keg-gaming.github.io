@@ -16,6 +16,7 @@ function enableWifiUpload(){
     }
     else{
         console.log("Enter Password First");
+        document.getElementById("on screen information").innerHTML = "Enter Password First";
     }
 }
 
@@ -44,10 +45,12 @@ function handleNewWifiData(event){
     
     if(split_reading.length == 4){
         console.log("Wifi Server Hosted At " + reading);
+        document.getElementById("on screen information").innerHTML = "Wifi Server Hosted At " + reading;
         WIFI_CH.stopNotifications();
         WIFI_CH.removeEventListener("characteristicvaluechanged",handleNewPassMSG);
     }
     else{
         console.log(reading);
+        document.getElementById("on screen information").innerHTML = reading;
     }
 }

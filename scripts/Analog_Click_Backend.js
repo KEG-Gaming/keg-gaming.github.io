@@ -1,5 +1,4 @@
 document.addEventListener('click', parseScreenClick, false);
-document.addEventListener('click tap', parseScreenClick, false);
 // const canvas1 = document.getElementById("canvas");
 
 var store_rect_interval;

@@ -3,6 +3,7 @@ var currently_sending;
 var PASSWORD_CH;
 var password_correct = 0;
 var in_window_index = 0;
+var connected_flag = 0;
 
 function isWebBluetoothEnabled() {
     // this is what generates the BLE pop up searching window
@@ -59,11 +60,14 @@ async function handleNewPassMSG(event){
     var reading = enc.decode(value);
     if(reading == "Password Correct"){
         console.log("Password Correct");
+        document.getElementById("on screen information").innerHTML = "Password Correct";
         PASSWORD_CH.stopNotifications();
         PASSWORD_CH.removeEventListener("characteristicvaluechanged",handleNewPassMSG);
         password_correct = 1;
     }
     else{
+        connected_flag = 1;
         console.log(reading);
+        document.getElementById("on screen information").innerHTML = reading;
     }
 }

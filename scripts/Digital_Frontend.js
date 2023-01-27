@@ -36,6 +36,19 @@ const Done_Mapping_Button_Path = new Path2D();
 const Redo_Last_Button_Path = new Path2D();
 const Reset_Default_Mapping_Path = new Path2D();
 
+const A_Tag_Path = new Path2D();
+const B_Tag_Path = new Path2D();
+const X_Tag_Path = new Path2D();
+const Y_Tag_Path = new Path2D();
+const Z_Tag_Path = new Path2D();
+const L_Tag_Path = new Path2D();
+const R_Tag_Path = new Path2D();
+const S_Tag_Path = new Path2D();
+const DU_Tag_Path = new Path2D();
+const DR_Tag_Path = new Path2D();
+const DL_Tag_Path = new Path2D();
+const DD_Tag_Path = new Path2D();
+
 const ax0 = 435;
 const ay0 = 350 + 200;
 A_Button_Path.arc(ax0,ay0,40,0,Math.PI*2,true);
@@ -143,6 +156,67 @@ const rdmx0 = 5;
 const rdmy0 = 200;
 Reset_Default_Mapping_Path.rect(rdmx0,rdmy0,button_w,button_h);
 
+const atx0 = ax0+24;
+const aty0 = ay0-35;
+A_Tag_Path.moveTo(atx0,aty0);
+populateTags(A_Tag_Path,atx0,aty0,1);
+
+const btx0 = bx0;
+const bty0 = by0+22;
+B_Tag_Path.moveTo(btx0,bty0);
+populateTags(B_Tag_Path,btx0,bty0,1);
+
+const xtx0 = xx0+30;
+const xty0 = xy0+40;
+X_Tag_Path.moveTo(xtx0,xty0);
+populateTags(X_Tag_Path,xtx0,xty0,1);
+
+const ytx0 = yx0+65;
+const yty0 = yy0-15;
+Y_Tag_Path.moveTo(ytx0,yty0);
+populateTags(Y_Tag_Path,ytx0,yty0,1);
+
+const ztx0 = zx0+90;
+const zty0 = zy0+10;
+Z_Tag_Path.moveTo(ztx0,zty0);
+populateTags(Z_Tag_Path,ztx0,zty0,1);
+
+const ltx0 = lx0+60;
+const lty0 = ly0-40;
+L_Tag_Path.moveTo(ltx0,lty0);
+populateTags(L_Tag_Path,ltx0,lty0,1);
+
+const rtx0 = rx0+60;
+const rty0 = ry0-40;
+R_Tag_Path.moveTo(rtx0,rty0);
+populateTags(R_Tag_Path,rtx0,rty0,1);
+
+const stx0 = sx0-10;
+const sty0 = sy0;
+S_Tag_Path.moveTo(stx0,sty0);
+populateTags(S_Tag_Path,stx0,sty0,-1);
+
+const dutx0 = dux0;
+const duty0 = duy0;
+DU_Tag_Path.moveTo(dutx0,duty0);
+populateTags(DU_Tag_Path,dutx0,duty0,1);
+
+const drtx0 = drx0;
+const drty0 = dry0+20;
+DR_Tag_Path.moveTo(drtx0,drty0);
+populateTags(DR_Tag_Path,drtx0,drty0,1);
+
+const ddtx0 = ddx0;
+const ddty0 = ddy0+16;
+DD_Tag_Path.moveTo(ddtx0,ddty0);
+populateTags(DD_Tag_Path,ddtx0,ddty0,-0.28);
+
+const dltx0 = dlx0;
+const dlty0 = dly0;
+DL_Tag_Path.moveTo(dltx0,dlty0);
+populateTags(DL_Tag_Path,dltx0,dlty0,-0.28);
+
+
 var A_Button_flag = 0;
 var B_Button_flag = 0;
 var S_Button_flag = 0;
@@ -152,6 +226,7 @@ var Y_Button_flag = 0;
 var Z_Button_flag = 0;
 var L_Button_flag = 0;
 var R_Button_flag = 0;
+var Draw_Tags_Flag = 0;
 
 var Read_Mapping_Button_Flag = 0;
 var Send_Mapping_Button_Flag = 0;
@@ -274,6 +349,9 @@ function drawDigital(){
             ctx.font = "30px sans-serif";
             ctx.fillText("R", rx0+18, ry0-37);
         }
+        if(Draw_Tags_Flag){
+            drawTags(ctx);
+        }
         // End Generate Gamecube Buttons
 
         // Start Generate IO Buttons
@@ -298,6 +376,7 @@ function drawDigital(){
         if(Redo_Last_Button_Flag){
             drawButton(ctx,Redo_Last_Button_Path);
             drawText(ctx,"Redo Last", rlbx0+10, rlby0+40);
+            drawCurrButtonText(ctx,first_clicked);
         }
         if(Reset_Default_Mapping_Flag){
             drawButton(ctx,Reset_Default_Mapping_Path);
@@ -326,6 +405,8 @@ function DigitalInter(){
     L_Button_flag = 1;
     R_Button_flag = 1;
 
+    Draw_Tags_Flag = 1;
+
     Read_Mapping_Button_Flag = 1;
     Send_Mapping_Button_Flag = 1;
     Save_Mapping_Button_Flag = 1;
@@ -334,3 +415,84 @@ function DigitalInter(){
     digiDrawInterval = setInterval(drawDigital, 10); // calls draw every 10 ms
 }
 
+function drawCurrButtonText(ctx,text){
+    if(text=="S"){
+        text = "Start";
+    }
+    else if(text == "u"){
+        text = "D-UP";
+    }
+    else if(text == "r"){
+        text = "D-RIGHT";
+    }
+    else if(text == "d"){
+        text = "D-DOWN";
+    }
+    else if(text == "l"){
+        text = "D-LEFT";
+    }
+    ctx.fillStyle = `rgb(0,0,0)`;
+    ctx.font = "30px sans-serif";
+    ctx.fillText("Currently Selected: " + text, rlbx0+175, rdmy0+40)
+}
+
+function populateTags(tagObj,x,y,direc){
+    const x_tagline_len = 100*direc;
+    const box_size_x = 70*direc/Math.abs(direc);
+    const box_size_y = 30*direc/Math.abs(direc);
+    tagObj.lineTo(x+x_tagline_len,y);
+    tagObj.lineTo(x+x_tagline_len,y-box_size_y/2);
+    tagObj.lineTo(x+x_tagline_len+box_size_x,y-box_size_y/2);
+    tagObj.lineTo(x+x_tagline_len+box_size_x,y+box_size_y/2);
+    tagObj.lineTo(x+x_tagline_len,y+box_size_y/2);
+    tagObj.lineTo(x+x_tagline_len,y);
+}
+
+function drawTags(ctx){
+    ctx.strokeStyle = `rgb(0,0,0)`;
+    ctx.stroke(A_Tag_Path);
+    ctx.stroke(B_Tag_Path);
+    ctx.stroke(X_Tag_Path);
+    ctx.stroke(Y_Tag_Path);
+    ctx.stroke(Z_Tag_Path);
+    ctx.stroke(S_Tag_Path);
+    ctx.stroke(L_Tag_Path);
+    ctx.stroke(R_Tag_Path);
+    ctx.stroke(DU_Tag_Path);
+    ctx.stroke(DR_Tag_Path);
+    ctx.stroke(DD_Tag_Path);
+    ctx.stroke(DL_Tag_Path);
+
+    drawButtonMapText(ctx,Digital_Button_Map.get("A")+", "+onOrOff(Toggle_Map.get("A")),atx0+103,aty0+7);
+    drawButtonMapText(ctx,Digital_Button_Map.get("B")+", "+onOrOff(Toggle_Map.get("B")),btx0+103,bty0+7);
+    drawButtonMapText(ctx,Digital_Button_Map.get("X")+", "+onOrOff(Toggle_Map.get("X")),xtx0+103,xty0+7);
+    drawButtonMapText(ctx,Digital_Button_Map.get("Y")+", "+onOrOff(Toggle_Map.get("Y")),ytx0+103,yty0+7);
+    drawButtonMapText(ctx,Digital_Button_Map.get("Z")+", "+onOrOff(Toggle_Map.get("Z")),ztx0+103,zty0+7);
+    drawButtonMapText(ctx,Digital_Button_Map.get("S")+", "+onOrOff(Toggle_Map.get("S")),stx0-168,sty0+7);
+    drawButtonMapText(ctx,Digital_Button_Map.get("L")+", "+onOrOff(Toggle_Map.get("L")),ltx0+103,lty0+7);
+    drawButtonMapText(ctx,Digital_Button_Map.get("R")+", "+onOrOff(Toggle_Map.get("R")),rtx0+103,rty0+7);
+    drawButtonMapText(ctx,Digital_Button_Map.get("u")+", "+onOrOff(Toggle_Map.get("u")),dutx0+103,duty0+7);
+    drawButtonMapText(ctx,Digital_Button_Map.get("r")+", "+onOrOff(Toggle_Map.get("r")),drtx0+103,drty0+7);
+    drawButtonMapText(ctx,Digital_Button_Map.get("d")+", "+onOrOff(Toggle_Map.get("d")),ddtx0-92,ddty0+7);
+    drawButtonMapText(ctx,Digital_Button_Map.get("l")+", "+onOrOff(Toggle_Map.get("l")),dltx0-92,dlty0+7);
+}
+
+function drawButtonMapText(ctx,text,x,y){
+    ctx.fillStyle = `rgb(0,0,0)`;
+    ctx.font = "20px sans-serif";
+    ctx.fillText(text, x, y)
+}
+
+function onOrOff(t){
+    if(t == "Y"){
+        return "ON";
+    }
+    else{
+        if(t=="N"){
+            return "OFF";
+        }
+        else{
+            return "IDK"
+        }
+    }
+}
