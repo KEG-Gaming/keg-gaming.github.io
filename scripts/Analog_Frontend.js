@@ -10,6 +10,9 @@ var analog_stick_Y;
 var c_stick_X;
 var c_stick_Y;
 
+var LT_pos = 0;
+var RT_pos = 0;
+
 // document.body.style.backgroundColor = "#495096";
 document.body.style.backgroundImage = "linear-gradient(to right, " + "#343A70" + ", " + "#646CB7" + ")";
 
@@ -37,6 +40,9 @@ const deadzones_rect = new Path2D();
 const send_deadzones_rect = new Path2D();
 const save_deadzones_rect = new Path2D();
 
+const left_trig_base_path = new Path2D();
+const right_trig_base_path = new Path2D();
+
 const button_w = 160;
 const button_h = 65;
 
@@ -52,6 +58,22 @@ deadzones_rect.rect(10,75,button_w,button_h);
 send_deadzones_rect.rect(150,75,button_w,button_h);
 save_deadzones_rect.rect(290,75,button_w,button_h);
 
+const altx0 = 70;
+const alty0 = 350;
+left_trig_base_path.moveTo(altx0,alty0);
+left_trig_base_path.arc(altx0,alty0-15,15,Math.PI/2,3*Math.PI/2,false);
+left_trig_base_path.lineTo(altx0+130,alty0-30);
+left_trig_base_path.arc(altx0+130,alty0-15,15,3*Math.PI/2,Math.PI/2,false);
+left_trig_base_path.lineTo(altx0,alty0);
+
+const artx0 = 450;
+const arty0 = 350;
+right_trig_base_path.moveTo(artx0,arty0);
+right_trig_base_path.arc(artx0,arty0-15,15,Math.PI/2,3*Math.PI/2,false);
+right_trig_base_path.lineTo(artx0+130,arty0-30);
+right_trig_base_path.arc(artx0+130,arty0-15,15,3*Math.PI/2,Math.PI/2,false);
+right_trig_base_path.lineTo(artx0,arty0);
+
 
 var analog_stick_flag = 0;
 var c_stick_flag = 0;
@@ -64,6 +86,7 @@ var send_calib_flag = 0;
 var save_calib_flag = 0;
 var finished_calib_flag = 0;
 var deadzones_flag = 0;
+var trigger_flag = 0;
 
 var display_msg = "Message";
 
@@ -82,7 +105,7 @@ function draw() {
             // making the analog stick gates
             var R = 60;
             var oX = 100;
-            var oY = 400;
+            var oY = 470;
 
             ctx.lineWidth = 13;
             ctx.strokeStyle = `rgb(255,255,255)`;
@@ -121,7 +144,7 @@ function draw() {
             // making the c-stick gates
             var R = 50;
             var oX = 400;
-            var oY = 410;
+            var oY = 480;
 
             ctx.lineWidth = 13;
             ctx.strokeStyle = `rgb(250,245,6)`;
@@ -153,6 +176,30 @@ function draw() {
                 drawReadingText(ctx,"X = " + Math.round(mapStickVals(Curr_CX_Cal_Vals[0], Curr_CX_Cal_Vals[1],Curr_CX_Cal_Vals[2], currentCX, CStickXDeadzone)).toString(),oX+R-25,oY+R+40);
                 drawReadingText(ctx,"Y = " + Math.round(mapStickVals(Curr_CY_Cal_Vals[0], Curr_CY_Cal_Vals[1],Curr_CY_Cal_Vals[2], currentCY, CStickYDeadzone)).toString(),oX+R-25,oY+R+70);
             }
+        }
+
+        if(trigger_flag){
+            ctx.fillStyle = `rgb(0,0,0)`;
+            ctx.strokeStyle = `rgb(255,255,255)`;
+            ctx.stroke(left_trig_base_path); // draw left trigger
+            ctx.fill(left_trig_base_path);
+            ctx.stroke(right_trig_base_path); // draw right trigger
+            ctx.fill(right_trig_base_path);
+
+            LT_pos = currentLT;
+            RT_pos = currentRT;
+            
+            ctx.fillStyle = `rgb(255,255,255)`;
+            ctx.beginPath();
+            ctx.arc(altx0+2+LT_pos/2, alty0-15, 10, 0, Math.PI * 2, true);
+            ctx.stroke();
+            drawReadingText(ctx,"Left Trigger = "+LT_pos.toString(),altx0-5,alty0+30);
+
+            ctx.beginPath();
+            ctx.arc(artx0+2+RT_pos/2, arty0-15, 10, 0, Math.PI * 2, true);
+            ctx.stroke();
+            drawReadingText(ctx,"Right Trigger = "+RT_pos.toString(),artx0-5,arty0+30);
+
         }
 
         // other buttons like store, redo, done, etc...
@@ -270,6 +317,7 @@ function inter(){
     save_calib_flag = 1;
     // deadzones_flag = 1; // ADD THIS BACK IF YOU WANT DEADZONE CALIBRATION
     finished_calib_flag = 1;
+    trigger_flag = 1;
     drawInterval = setInterval(draw, 10); // calls draw every 10 ms
 }
 

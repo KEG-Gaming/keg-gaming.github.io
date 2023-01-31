@@ -2,6 +2,8 @@ var currentAX = -1;
 var currentAY = -1;
 var currentCX = -1;
 var currentCY = -1;
+var currentLT = -1;
+var currentRT = -1;
 
 var storageCounter = 0;
 
@@ -73,15 +75,14 @@ async function handleNewAnalogData(event){
     const value = event.target.value;
     var enc = new TextDecoder("utf-8");
     var str3 = enc.decode(value);
-    if(str3.length == 19){
+    if(str3.length == 29){
         var AnalogValues = enc.decode(value).split(',');
         currentAX = parseInt(AnalogValues[0]);
         currentAY = parseInt(AnalogValues[1]);
         currentCX = parseInt(AnalogValues[2]);
         currentCY = parseInt(AnalogValues[3]);
-        // console.log(currentAX);
-        // console.log(currentAY);
-        // console.log("");
+        currentLT = parseInt(AnalogValues[4]);
+        currentRT = parseInt(AnalogValues[5]);
     }
     else{
         var AnalogCalibValues = enc.decode(value).split(':');
@@ -174,6 +175,7 @@ function finishedCalibration(){
     done_calib_flag = 0;
     redo_last_store_flag = 0;
     deadzones_flag = 0;
+    trigger_flag = 0;
 
     in_window_index = 0;
 
