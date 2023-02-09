@@ -4,6 +4,7 @@ var PASSWORD_CH;
 var password_correct = 0;
 var in_window_index = 0;
 var connected_flag = 0;
+var reset_password = 0;
 
 function isWebBluetoothEnabled() {
     // this is what generates the BLE pop up searching window
@@ -55,6 +56,7 @@ function sendMSG(msg){
 
 
 async function handleNewPassMSG(event){
+    connected_flag = 1;
     const value = event.target.value;
     var enc = new TextDecoder("utf-8");
     var reading = enc.decode(value);
@@ -65,8 +67,14 @@ async function handleNewPassMSG(event){
         PASSWORD_CH.removeEventListener("characteristicvaluechanged",handleNewPassMSG);
         password_correct = 1;
     }
+    else if(reading == "Reset Password" && reset_password == 0){
+        document.getElementById("on screen information").innerHTML = "Reset Password";
+        reset_password = 1;
+    }
+    else if(reading == "Password Reset"){
+        reset_password = 0;
+    }
     else{
-        connected_flag = 1;
         console.log(reading);
         document.getElementById("on screen information").innerHTML = reading;
     }

@@ -34,10 +34,10 @@ class Deadzone {
     }
   }
 
-var AnalogStickXDeadzone = new Deadzone(0,0,0);
-var AnalogStickYDeadzone = new Deadzone(0,0,0);
-var CStickXDeadzone = new Deadzone(0,0,0);
-var CStickYDeadzone = new Deadzone(0,0,0);
+var AnalogStickXDeadzone = new Deadzone(117,137,127);
+var AnalogStickYDeadzone = new Deadzone(117,137,127);
+var CStickXDeadzone = new Deadzone(117,137,127);
+var CStickYDeadzone = new Deadzone(117,137,127);
 
 
 function requestAnalogReadings(){
@@ -46,8 +46,9 @@ function requestAnalogReadings(){
             finishedDigitalSettings();
             inter();
             in_window_index = 1;
-            var msg = "A";
-            sendMSG(msg);
+            sendMSG("RAC");
+            // var msg = "A";
+            // sendMSG(msg);
             console.log("Requesting analog data");
             BLE_Server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
             .then(service => {
@@ -59,6 +60,9 @@ function requestAnalogReadings(){
                     characteristic.addEventListener("characteristicvaluechanged",handleNewAnalogData);
                     characteristic.startNotifications();
                     console.log("Analog Notifications enabled");
+                    setTimeout(() => {
+                        sendMSG("A");
+                      }, 1000);
                 }
                 return 0;
             })
@@ -84,7 +88,7 @@ async function handleNewAnalogData(event){
         currentLT = parseInt(AnalogValues[4]);
         currentRT = parseInt(AnalogValues[5]);
     }
-    else{
+    else if(str3.length == 59){
         var AnalogCalibValues = enc.decode(value).split(':');
         for(let i=0;i<3;i++){
             Curr_AX_Cal_Vals[i] = AnalogCalibValues[0].split(',')[i];
@@ -100,6 +104,27 @@ async function handleNewAnalogData(event){
         }
         console.log("Got Analog Calibration Values");
         document.getElementById("on screen information").innerHTML = "Got Analog Calibration Values";
+    }
+    else if(str3.length == 47){
+        var AnalogDeadzoneValues = enc.decode(value).split(':');
+        AnalogStickXDeadzone.low = AnalogDeadzoneValues[0].split(',')[0];
+        AnalogStickXDeadzone.high = AnalogDeadzoneValues[0].split(',')[1];
+        AnalogStickXDeadzone.value = AnalogDeadzoneValues[0].split(',')[2];
+
+        AnalogStickYDeadzone.low = AnalogDeadzoneValues[1].split(',')[0];
+        AnalogStickYDeadzone.high = AnalogDeadzoneValues[1].split(',')[1];
+        AnalogStickYDeadzone.value = AnalogDeadzoneValues[1].split(',')[2];
+
+        CStickXDeadzone.low = AnalogDeadzoneValues[2].split(',')[0];
+        CStickXDeadzone.high = AnalogDeadzoneValues[2].split(',')[1];
+        CStickXDeadzone.value = AnalogDeadzoneValues[2].split(',')[2];
+
+        CStickXDeadzone.low = AnalogDeadzoneValues[3].split(',')[0];
+        CStickYDeadzone.high = AnalogDeadzoneValues[3].split(',')[1];
+        CStickYDeadzone.value = AnalogDeadzoneValues[3].split(',')[2];
+        
+        console.log("Got Analog Deadzone Values");
+        document.getElementById("on screen information").innerHTML = "Got Analog Deadzone Values";
     }
 }
 
@@ -161,6 +186,7 @@ function doneCalibration(){
     storageCounter = 0;
     store_val_flag = 0;
     done_calib_flag = 0;
+    deadzones_flag = 0;
     redo_last_store_flag = 0;
 }
 
@@ -241,10 +267,10 @@ function requestAnalogCalibration(){
 
 function editDeadzones(){
     // read input from user
-    const ASXDStr = window.prompt("Enter Analog Stick X-Axis Deadzone\nformat: low, high, value").split(",");
-    const ASYDStr = window.prompt("Enter Analog Stick Y-Axis Deadzone\nformat: low, high, value").split(",");
-    const CSXDStr = window.prompt("Enter C-Stick X-Axis Deadzone\nformat: low, high, value").split(",");
-    const CSYDStr = window.prompt("Enter C-Stick Y-Axis Deadzone\nformat: low, high, value").split(",");
+    const ASXDStr = window.prompt("Enter Analog Stick X-Axis Deadzone\nformat: low, high, value\nwhere [low,high] --> value\nrecommended low<118, high>136, value = 127").split(",");
+    const ASYDStr = window.prompt("Enter Analog Stick Y-Axis Deadzone\nformat: low, high, value\nwhere [low,high] --> value\nrecommended low<118, high>136, value = 127").split(",");
+    const CSXDStr = window.prompt("Enter C-Stick X-Axis Deadzone\nformat: low, high, value\nwhere [low,high] --> value\nrecommended low<118, high>136, value = 127").split(",");
+    const CSYDStr = window.prompt("Enter C-Stick Y-Axis Deadzone\nformat: low, high, value\nwhere [low,high] --> value\nrecommended low<118, high>136, value = 127").split(",");
     console.log("Deadzones set to:");
     // convert to integer
     var l = parseInt(ASXDStr[0]);
@@ -341,6 +367,7 @@ function editDeadzones(){
     else{
         console.log("One or more C-Stick Y deadzone values were not integers");
     }
+    sendStickDeadzones();
 }
 
 function sendStickDeadzones(){

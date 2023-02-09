@@ -1,5 +1,7 @@
 var listening_for_wifi_confirm = 0;
 var WIFI_CH;
+var hosted_page = "";
+
 
 function enableWifiUpload(){
     if(password_correct){
@@ -45,6 +47,7 @@ function handleNewWifiData(event){
     
     if(split_reading.length == 4){
         console.log("Wifi Server Hosted At " + reading);
+        hosted_page = reading;
         document.getElementById("on screen information").innerHTML = "Wifi Server Hosted At " + reading;
         WIFI_CH.stopNotifications();
         WIFI_CH.removeEventListener("characteristicvaluechanged",handleNewPassMSG);
@@ -52,5 +55,11 @@ function handleNewWifiData(event){
     else{
         console.log(reading);
         document.getElementById("on screen information").innerHTML = reading;
+    }
+}
+
+function redirectPage(){
+    if(hosted_page != ""){
+        window.open("http://"+hosted_page, '_blank').focus();
     }
 }

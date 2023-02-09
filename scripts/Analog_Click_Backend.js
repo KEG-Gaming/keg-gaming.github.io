@@ -43,15 +43,23 @@ function parseScreenClick(event){
             saveCalibValues();
         }
         if(deadzones_flag && ctx.isPointInPath(deadzones_rect, x, y)){
-            editDeadzones();
-            // console.log("deadzone tuning selected");
+            sendMSG("RDC");
+            setTimeout(() => {
+                editDeadzones();
+            }, 1000);
         }
-        if(deadzones_flag && ctx.isPointInPath(send_deadzones_rect, x, y)){
-            sendStickDeadzones();
+        if(trigger_flag && ctx.isPointInPath(left_trig_base_path, x, y)){
+            console.log("Left trigger clicked");
         }
-        if(deadzones_flag && ctx.isPointInPath(save_deadzones_rect, x, y)){
-            saveStickDeadzones();
+        if(trigger_flag && ctx.isPointInPath(right_trig_base_path, x, y)){
+            console.log("Rigth trigger clicked");
         }
+        // if(deadzones_flag && ctx.isPointInPath(send_deadzones_rect, x, y)){
+        //     sendStickDeadzones();
+        // }
+        // if(deadzones_flag && ctx.isPointInPath(save_deadzones_rect, x, y)){
+        //     saveStickDeadzones();
+        // }
         if(finished_calib_flag && ctx.isPointInPath(finished_calib_rect, x, y)){
             finishedCalibration();
         }
@@ -130,6 +138,7 @@ function parseScreenClick(event){
             finishedDigitalSettings();
             console.log("Done Mapping Button Clicked");
         }
+        //End Digital Screen Click Parsing
 
     }
 }
@@ -137,6 +146,7 @@ function parseScreenClick(event){
 function onAnalogStickClick(){
     store_val_flag = 1;
     done_calib_flag = 1;
+    deadzones_flag = 1;
     storageCounter = 0;
 }
 
@@ -144,6 +154,7 @@ function onCStickClick(){
     skipToCStick();
     store_val_flag = 1;
     done_calib_flag = 1;
+    deadzones_flag = 1;
 }
 
 function onGCSimButtonClicked(tag){

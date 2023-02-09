@@ -48,15 +48,13 @@ const button_h = 65;
 
 store_value_rect.rect(5,200,button_w,button_h);
 redo_last_rect.rect(180,200,button_w,button_h);
-done_calib_rect.rect(355,200,button_w,button_h);
+deadzones_rect.rect(355,200,button_w,button_h);
+done_calib_rect.rect(530,200,button_w,button_h);
 
 get_current_cal_rect.rect(5,30,button_w,button_h);
 send_calib_rect.rect(180,30,button_w,button_h);
 save_calib_rect.rect(355,30,button_w,button_h);
 finished_calib_rect.rect(530,30,button_w,button_h);
-deadzones_rect.rect(10,75,button_w,button_h);
-send_deadzones_rect.rect(150,75,button_w,button_h);
-save_deadzones_rect.rect(290,75,button_w,button_h);
 
 const altx0 = 70;
 const alty0 = 350;
@@ -230,7 +228,7 @@ function draw() {
         if(done_calib_flag){
             drawButton(ctx,done_calib_rect);
 
-            drawText(ctx,"Exit", 400, 239);
+            drawText(ctx,"Exit", 575, 239);
         }
         if(redo_last_store_flag){
             drawButton(ctx,redo_last_rect);
@@ -258,11 +256,7 @@ function draw() {
         }
         if(deadzones_flag){
             drawButton(ctx,deadzones_rect);
-            drawText(ctx,"Deadzones",13,94);
-            drawButton(ctx,send_deadzones_rect);
-            drawText(ctx,"Send Dead",153,94);
-            drawButton(ctx,save_deadzones_rect);
-            drawText(ctx,"Save Dead",293,94);
+            drawText(ctx,"Deadzones",360,239);
         }
         if(finished_calib_flag){
             drawButton(ctx,finished_calib_rect);
