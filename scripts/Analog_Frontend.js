@@ -88,6 +88,18 @@ var trigger_flag = 0;
 
 var display_msg = "Message";
 
+const button_light_color = `rgb(192,192,192)`;
+const button_dark_color = `rgb(150,150,150)`;
+
+var store_val_colour_flag = 0;
+var done_calib_colour_flag = 0;
+var redo_last_store_colour_flag = 0;
+var get_current_cal_colour_flag = 0;
+var send_calib_colour_flag = 0;
+var save_calib_colour_flag = 0;
+var finished_calib_colour_flag = 0;
+var deadzones_colour_flag = 0;
+
 function draw() {
     
     const canvas = document.getElementById("canvas");
@@ -202,7 +214,7 @@ function draw() {
 
         // other buttons like store, redo, done, etc...
         if(store_val_flag){
-            drawButton(ctx,store_value_rect);
+            drawButton(ctx,store_value_rect,store_val_colour_flag);
             if(storageCounter == numCalPoints*4){
                 drawText(ctx,"Done",50,239);
             }
@@ -226,40 +238,40 @@ function draw() {
             }
         }
         if(done_calib_flag){
-            drawButton(ctx,done_calib_rect);
+            drawButton(ctx,done_calib_rect,done_calib_colour_flag);
 
             drawText(ctx,"Exit", 575, 239);
         }
         if(redo_last_store_flag){
-            drawButton(ctx,redo_last_rect);
+            drawButton(ctx,redo_last_rect,redo_last_store_colour_flag);
             drawText(ctx,"Redo",225,239);
         }
         if(get_current_cal_flag == 1){
-            drawButton(ctx,get_current_cal_rect);
+            drawButton(ctx,get_current_cal_rect,get_current_cal_colour_flag);
             drawText(ctx,"Read",50,55);
             drawText(ctx,"Calibration",15,85);
         }
         if(get_current_cal_flag == 2){
-            drawButton(ctx,get_current_cal_rect);
+            drawButton(ctx,get_current_cal_rect,get_current_cal_colour_flag);
             drawText(ctx,"Read",50,55);
             drawText(ctx,"Analog",40,85);
         }
         if(send_calib_flag){
-            drawButton(ctx,send_calib_rect);
+            drawButton(ctx,send_calib_rect,send_calib_colour_flag);
             drawText(ctx,"Send",225,55);
             drawText(ctx,"Calibration",190,85);
         }
         if(save_calib_flag){
-            drawButton(ctx,save_calib_rect);
+            drawButton(ctx,save_calib_rect,save_calib_colour_flag);
             drawText(ctx,"Save",402,55);
             drawText(ctx,"Calibration",365,85);
         }
         if(deadzones_flag){
-            drawButton(ctx,deadzones_rect);
+            drawButton(ctx,deadzones_rect,deadzones_colour_flag);
             drawText(ctx,"Deadzones",360,239);
         }
         if(finished_calib_flag){
-            drawButton(ctx,finished_calib_rect);
+            drawButton(ctx,finished_calib_rect,finished_calib_colour_flag);
             drawText(ctx,"Finished",555,70);
         }
         else{
@@ -315,8 +327,11 @@ function inter(){
     drawInterval = setInterval(draw, 10); // calls draw every 10 ms
 }
 
-function drawButton(ctx,rect){
-    ctx.fillStyle = `rgb(192,192,192)`
+function drawButton(ctx,rect,flag = 0){
+    ctx.fillStyle = button_light_color;
+    if(flag == 1){
+        ctx.fillStyle = button_dark_color;
+    }
     ctx.strokeStyle = `rgb(0,0,0)`;
     ctx.stroke(rect);
     ctx.fill(rect);

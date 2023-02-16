@@ -1,6 +1,7 @@
 var listening_for_wifi_confirm = 0;
 var WIFI_CH;
 var hosted_page = "";
+const github_bin_address = "https://github.com/gregory-j-r/KEG_Controller/tree/main/KEG_Arduino";
 
 
 function enableWifiUpload(){
@@ -13,6 +14,7 @@ function enableWifiUpload(){
             sendMSG(msg);
             setTimeout(() => {
                 sendMSG("Standby");
+                // window.open(github_bin_address, '_blank').focus();
               }, 1000);
         }
     }

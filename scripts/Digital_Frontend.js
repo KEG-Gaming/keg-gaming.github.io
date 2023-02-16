@@ -236,6 +236,13 @@ var Done_Mapping_Button_Flag = 0;
 var Redo_Last_Button_Flag = 0;
 var Reset_Default_Mapping_Flag = 0;
 
+var Read_Mapping_Button_Colour_Flag = 0;
+var Send_Mapping_Button_Colour_Flag = 0;
+var Save_Mapping_Button_Colour_Flag = 0;
+var Done_Mapping_Button_Colour_Flag = 0;
+var Redo_Last_Button_Colour_Flag = 0;
+var Reset_Default_Mapping_Colour_Flag = 0;
+
 function drawDigital(){
     const canvas = document.getElementById("canvas");
     if (canvas.getContext) {
@@ -356,7 +363,7 @@ function drawDigital(){
 
         // Start Generate IO Buttons
         if(Read_Mapping_Button_Flag){
-            drawButton(ctx,Read_Mapping_Button_Path);
+            drawButton(ctx,Read_Mapping_Button_Path,Read_Mapping_Button_Colour_Flag);
             drawText(ctx,"Read", rmx0+45, rmy0+25);
             drawText(ctx,"Mapping", rmx0+25, rmy0+55);
 
@@ -364,26 +371,26 @@ function drawDigital(){
             drawText(ctx,Digital_Instructions[1], 10, 170); // some instructions
         }
         if(Send_Mapping_Button_Flag){
-            drawButton(ctx,Send_Mapping_Button_Path);
+            drawButton(ctx,Send_Mapping_Button_Path,Send_Mapping_Button_Colour_Flag);
             drawText(ctx,"Send", snmx0+45, rmy0+25);
             drawText(ctx,"Mapping", snmx0+25, rmy0+55);
         }
         if(Save_Mapping_Button_Flag){
-            drawButton(ctx,Save_Mapping_Button_Path);
+            drawButton(ctx,Save_Mapping_Button_Path,Save_Mapping_Button_Colour_Flag);
             drawText(ctx,"Save", svmx0+45, rmy0+25);
             drawText(ctx,"Mapping", svmx0+25, rmy0+55);
         }
         if(Redo_Last_Button_Flag){
-            drawButton(ctx,Redo_Last_Button_Path);
+            drawButton(ctx,Redo_Last_Button_Path,Redo_Last_Button_Colour_Flag);
             drawText(ctx,"Redo Last", rlbx0+10, rlby0+40);
             drawCurrButtonText(ctx,first_clicked);
         }
         if(Reset_Default_Mapping_Flag){
-            drawButton(ctx,Reset_Default_Mapping_Path);
+            drawButton(ctx,Reset_Default_Mapping_Path,Reset_Default_Mapping_Colour_Flag);
             drawText(ctx,"Reset", rdmx0+40, rdmy0+40);
         }
         if(Done_Mapping_Button_Flag){
-            drawButton(ctx,Done_Mapping_Button_Path);
+            drawButton(ctx,Done_Mapping_Button_Path,Done_Mapping_Button_Colour_Flag);
             drawText(ctx,"Done", dmx0+45, rmy0+25);
             drawText(ctx,"Mapping", dmx0+25, rmy0+55);
         }
