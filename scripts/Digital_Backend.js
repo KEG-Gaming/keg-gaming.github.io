@@ -9,6 +9,7 @@ setDefaultMapping();
 var first_clicked = "";
 var second_clicked = "";
 var num_clicked = 0;
+var what_button_msg_flag = 0;
 
 function requestDigitalReadings(){
     // if(password_correct){
@@ -124,12 +125,15 @@ function setDefaultMapping(){
     Toggle_Map.set("l","Y");
 }
 
+
 function twoClicked(){
     if(first_clicked == second_clicked){
         toggleButton(first_clicked);
+        what_button_msg_flag = 1;
     }
     else{
         swapButtons(first_clicked,second_clicked);
+        what_button_msg_flag = 2;
     }
     console.log([...Digital_Button_Map.entries()]);
     console.log([...Toggle_Map.entries()]);
