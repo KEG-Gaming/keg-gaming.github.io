@@ -6,17 +6,7 @@ const github_bin_address = "https://github.com/gregory-j-r/KEG_Controller/tree/m
 
 function enableWifiUpload(){
     if(password_correct){
-        const SSID = window.prompt("What's Your WiFi Network Name?");
-        const WiFiPass = window.prompt("What's Your WiFi Network Password?");
-        if(SSID!=null && WiFiPass!=null){
-            const msg = "W/" + SSID + "/" + WiFiPass;
-            setupListenWifiEstablish();
-            sendMSG(msg);
-            setTimeout(() => {
-                sendMSG("Standby");
-                // window.open(github_bin_address, '_blank').focus();
-              }, 1000);
-        }
+        showPopup();
     }
     else{
         console.log("Enter Password First");
@@ -64,4 +54,31 @@ function redirectPage(){
     if(hosted_page != ""){
         window.open("http://"+hosted_page, '_blank').focus();
     }
+}
+
+
+
+function done() { 
+    document.getElementById("popup").style.display = "none";
+    const SSID = document.getElementById("ssid").value;
+    const WiFiPass = document.getElementById("pass").value;
+    document.getElementById("ssid").value = "";
+    document.getElementById("pass").value = "";
+    //DO STUFF WITH PASSWORD HERE
+
+    if(SSID!=null && WiFiPass!=null){
+        const msg = "W/" + SSID + "/" + WiFiPass;
+        console.log(msg);
+        setupListenWifiEstablish();
+        sendMSG(msg);
+        document.getElementById("on screen information").innerHTML = "Building OTA Update Site";
+        setTimeout(() => {
+            sendMSG("Standby");
+            // window.open(github_bin_address, '_blank').focus();
+          }, 1000);
+    }
+};
+
+function showPopup() {
+     document.getElementById("popup").style.display = "block";
 }
