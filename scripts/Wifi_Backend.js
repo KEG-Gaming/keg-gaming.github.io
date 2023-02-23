@@ -82,3 +82,15 @@ function done() {
 function showPopup() {
      document.getElementById("popup").style.display = "block";
 }
+
+
+
+function toggleHideWifiPass(){
+    const pass_input = document.getElementById("pass");
+    // When an input is checked, or whatever...
+    if (pass_input.getAttribute("type") === "password") {
+      pass_input.setAttribute("type", "text");
+    } else {
+      pass_input.setAttribute("type", "password");
+    }
+}
