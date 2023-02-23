@@ -42,7 +42,7 @@ function isWebBluetoothEnabled() {
 
 function sendMSG(msg){
     if(connected_flag){
-        console.log("Sending : " + msg);
+        // console.log("Sending : " + msg);
         currently_sending = msg;
         BLE_Server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
         .then(service => {

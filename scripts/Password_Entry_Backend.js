@@ -9,7 +9,7 @@ function getPassword(){
             changePassword();
         }
         else{
-            const pass = window.prompt("What's your KEG Controller Password?");
+            const pass = window.prompt("What's your KEG Controller Password?\nPlease Hold X+Y while you submit your password");
             if(pass!=null){
                 sendMSG(pass);
                 setTimeout(() => {
