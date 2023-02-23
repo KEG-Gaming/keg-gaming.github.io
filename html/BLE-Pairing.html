@@ -17,6 +17,15 @@
     
     <div id="on screen information" type="button" style="position:fixed; left:350px; top:30px; font-size:25px" onclick="redirectPage()">Click Connect To Pair Controller</div>
 
+    <div id="popup" style="width:400px;height:200px;padding:0px;background-color:white;position:absolute;top:0px;left:100px;display:none;font-size : 28px; border-radius: 10px;">
+      <div style="position:absolute; top: 20px;left:50px">Enter SSID & Password:</div>
+      <div style="position:absolute; top: 70px;left:50px; font-size : 20px;">SSID:</div>
+      <div style="position:absolute; top: 120px;left:50px; font-size : 20px;">Password:</div>
+      <input id="ssid" style="position:absolute; top: 70px;left:150px;"/>
+      <input id="pass" type="password" style="position:absolute; top: 120px;left:150px"/>
+      <button onclick="done()" style="position:absolute; top: 170px;left:270px; font-size : 20px;">Done</button>    
+    </div>
+
     <p id="demo"></p>
 
     <script src="/../scripts/BLE_Backend.js"></script>
