@@ -444,13 +444,15 @@ function drawCurrButtonText(ctx,text){
         ctx.fillText("Currently Selected: " + text, rlbx0+175, rdmy0+40);
     }
     else{
-        switch(what_button_msg_flag){
-            case(1):
-                ctx.fillText("Toggled: " + first_clicked, rlbx0+175, rdmy0+40);
-                break;
-            case(2):
-                ctx.fillText("Swapped: " + first_clicked + " & " + second_clicked, rlbx0+175, rdmy0+40);
-                break;
+        if(first_clicked != "" && second_clicked != ""){
+            switch(what_button_msg_flag){
+                case(1):
+                    ctx.fillText("Toggled: " + first_clicked, rlbx0+175, rdmy0+40);
+                    break;
+                case(2):
+                    ctx.fillText("Swapped: " + first_clicked + " & " + second_clicked, rlbx0+175, rdmy0+40);
+                    break;
+            }
         }
     }
 }
