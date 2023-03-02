@@ -62,7 +62,6 @@ function doneNewPassword(){
             sendMSG(msg);
             setTimeout(() => {
                 sendMSG("Standby");
-                // window.open(github_bin_address, '_blank').focus();
             }, 1000);
     
         }
@@ -73,4 +72,10 @@ function doneNewPassword(){
     else{
         document.getElementById("passChangeMsg").innerHTML = "Entries do not match";
     }   
+}
+
+function closeNewPass(){
+    document.getElementById("NewPass").value = "";
+    document.getElementById("ReNewPass").value = "";
+    document.getElementById("password_reset_popup").style.display = "none";
 }
