@@ -58,7 +58,7 @@ function doneNewPassword(){
             document.getElementById("password_reset_popup").style.display = "none";
 
             
-            const msg = "P/" + new_pass;
+            const msg = "P" + new_pass;
             sendMSG(msg);
             setTimeout(() => {
                 sendMSG("Standby");
