@@ -74,6 +74,7 @@ async function handleNewPassMSG(event){
         PASSWORD_CH.stopNotifications();
         PASSWORD_CH.removeEventListener("characteristicvaluechanged",handleNewPassMSG);
         password_correct = 1;
+        changeButtonNames();
     }
     else if(reading == "Reset Password" && reset_password == 0){
         document.getElementById("on screen information").innerHTML = "Reset Password";
@@ -115,4 +116,11 @@ function doneNewBLEName(){
 function closeNewBLEName(){
     document.getElementById("newBLEName").value = "";
     document.getElementById("ble_popup").style.display = "none";
+}
+
+function changeButtonNames(){
+    document.getElementById("Connect_Button").style.fontSize = "20px";
+    document.getElementById("Password_Button").style.fontSize = "20px";
+    document.getElementById("Connect_Button").innerHTML = "Change BLE Name";
+    document.getElementById("Password_Button").innerHTML = "Change Password";
 }
