@@ -6,7 +6,7 @@ function getPassword(){
         if(password_correct || reset_password){
             console.log("password correct = " + password_correct);
             console.log("reset password = " + reset_password);
-            changePassword();
+            showPassResetPopup();
         }
         else{
             const pass = window.prompt("What's your KEG Controller Password?\nPlease Hold X+Y while you submit your password");
@@ -25,26 +25,52 @@ function getPassword(){
 }
 
 
-function changePassword(){
-    if(connected_flag){
-        if(password_correct || reset_password){
-            const newPass = window.prompt("What would you like your password to be?\nPlease keep it between 5 and 15 Characters if possible.");
-            if(newPass!=null){
-                if(newPass.length <= 15 && newPass.length >= 5){
-                    sendMSG("P" + newPass);
-                    document.getElementById("on screen information").innerHTML = "Sending new password";
-                    reset_password = 0;
-                }
-                else{
-                    document.getElementById("on screen information").innerHTML = "Outside [5,15] character range, kindly try again";
-                }
-            }
-        }
+
+
+function showPassResetPopup() {
+    document.getElementById("password_reset_popup").style.display = "block";
+}
+
+function toggleHideNewPass(){
+    const new_pass_input = document.getElementById("NewPass");
+    const re_new_pass_input = document.getElementById("ReNewPass");
+    if (new_pass_input.getAttribute("type") === "password") {
+        new_pass_input.setAttribute("type", "text");
+    } else {
+        new_pass_input.setAttribute("type", "password");
     }
-    else{
-        console.log("Connect to controller first");
-        document.getElementById("on screen information").innerHTML = "Connect to controller first";
+
+    if (re_new_pass_input.getAttribute("type") === "password") {
+        re_new_pass_input.setAttribute("type", "text");
+    } else {
+        re_new_pass_input.setAttribute("type", "password");
     }
 }
 
+function doneNewPassword(){
+    const new_pass = document.getElementById("NewPass").value;
+    const re_new_pass = document.getElementById("ReNewPass").value;
 
+    if(new_pass == re_new_pass){
+        if(new_pass.length>=5 && new_pass.length<15){
+            document.getElementById("NewPass").value = "";
+            document.getElementById("ReNewPass").value = "";
+            document.getElementById("password_reset_popup").style.display = "none";
+
+            
+            const msg = "P/" + new_pass;
+            sendMSG(msg);
+            setTimeout(() => {
+                sendMSG("Standby");
+                // window.open(github_bin_address, '_blank').focus();
+            }, 1000);
+    
+        }
+        else{
+            document.getElementById("passChangeMsg").innerHTML = "Outside [5,14] character range";
+        }
+    }
+    else{
+        document.getElementById("passChangeMsg").innerHTML = "Entries do not match";
+    }   
+}

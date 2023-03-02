@@ -48,7 +48,9 @@ function handleNewWifiData(event){
     else{
         console.log(reading);
         if(reading.split(",").length<=1){
-            document.getElementById("on screen information").innerHTML = reading;
+            if(reading == "NO"){
+                document.getElementById("on screen information").innerHTML = "Wifi credentials incorrect";
+            }
         }
     }
 }

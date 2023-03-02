@@ -41,6 +41,7 @@ function isWebBluetoothEnabled() {
 
 
 function sendMSG(msg){
+    console.log("Sending : " + msg);
     if(connected_flag){
         // console.log("Sending : " + msg);
         currently_sending = msg;

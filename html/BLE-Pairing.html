@@ -27,6 +27,18 @@
       <button onclick="toggleHideWifiPass()" style="position:absolute; top: 120px;left:340px; font-size : 12px;">View</button>     
     </div>
 
+    <div id="password_reset_popup" style="width:400px;height:200px;padding:0px;background-color:white;position:absolute;top:0px;left:500px;display:none;font-size : 28px; border-radius: 10px;">
+      <div style="position:absolute; top: 20px;left:10px">Change Password</div>
+      <div id="passChangeMsg" style="position:absolute; top: 20px;left:240px;font-size : 18px;">(5-14 characters)</div>    
+      <div style="position:absolute; top: 70px;left:10px; font-size : 20px;">New Password:</div>
+      <div style="position:absolute; top: 120px;left:10px; font-size : 20px;">Re-Enter Password:</div>
+      <input id="ReNewPass" type="password" style="position:absolute; top: 70px;left:170px;"/>
+      <input id="NewPass" type="password" style="position:absolute; top: 120px;left:170px"/>
+      <button onclick="doneNewPassword()" style="position:absolute; top: 170px;left:270px; font-size : 20px;">Done</button>  
+      <button onclick="toggleHideNewPass()" style="position:absolute; top: 120px;left:350px; font-size : 12px;">View</button> 
+      
+    </div>
+
     <p id="demo"></p>
 
     <script src="/../scripts/BLE_Backend.js"></script>
