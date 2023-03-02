@@ -92,7 +92,16 @@ async function handleNewPassMSG(event){
 
 function showBLENameChangePopup(){
     document.getElementById("ble_popup").style.display = "block";
+    document.getElementById("ble_popup").addEventListener("keyup", handleEnterBLE);
 }
+
+function handleEnterBLE(event){
+    event.preventDefault();
+    if (event.key === "Enter") {
+        doneNewBLEName();
+    }
+}
+
 
 function doneNewBLEName(){
     const new_ble_name = document.getElementById("newBLEName").value;
@@ -100,6 +109,7 @@ function doneNewBLEName(){
     if(new_ble_name.length>=5 && new_ble_name.length<15){
         document.getElementById("newBLEName").value = "";
         document.getElementById("ble_popup").style.display = "none";
+        document.getElementById("ble_popup").removeEventListener("keyup",handleEnterBLE);
         
         const msg = "B" + new_ble_name;
         sendMSG(msg);
@@ -111,11 +121,14 @@ function doneNewBLEName(){
     else{
         document.getElementById("BLEChangeMsg").innerHTML = "Outside [5,14] character range";
     }
-}   
+}  
+
+
 
 function closeNewBLEName(){
     document.getElementById("newBLEName").value = "";
     document.getElementById("ble_popup").style.display = "none";
+    document.getElementById("ble_popup").removeEventListener("keyup",handleEnterBLE);
 }
 
 function changeButtonNames(){

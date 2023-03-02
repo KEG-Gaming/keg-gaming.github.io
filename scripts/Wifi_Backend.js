@@ -65,6 +65,7 @@ function redirectPage(){
 
 function doneWifiCredentialCollection() { 
     document.getElementById("popup").style.display = "none";
+    document.getElementById("popup").removeEventListener("keyup",handleEnterWifi);
     const SSID = document.getElementById("ssid").value;
     const WiFiPass = document.getElementById("pass").value;
     document.getElementById("ssid").value = "";
@@ -87,8 +88,15 @@ function doneWifiCredentialCollection() {
 
 function showPopup() {
      document.getElementById("popup").style.display = "block";
+     document.getElementById("popup").addEventListener("keyup", handleEnterWifi);
 }
 
+function handleEnterWifi(event){
+    event.preventDefault();
+    if (event.key === "Enter") {
+        doneWifiCredentialCollection();
+    }
+}
 
 
 function toggleHideWifiPass(){

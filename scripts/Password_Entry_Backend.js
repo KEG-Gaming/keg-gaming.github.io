@@ -29,6 +29,14 @@ function getPassword(){
 
 function showPassResetPopup() {
     document.getElementById("password_reset_popup").style.display = "block";
+    document.getElementById("password_reset_popup").addEventListener("keyup", handleEnterChangePass);
+}
+
+function handleEnterChangePass(event){
+    event.preventDefault();
+    if (event.key === "Enter") {
+        doneNewPassword();
+    }
 }
 
 function toggleHideNewPass(){
@@ -56,7 +64,7 @@ function doneNewPassword(){
             document.getElementById("NewPass").value = "";
             document.getElementById("ReNewPass").value = "";
             document.getElementById("password_reset_popup").style.display = "none";
-
+            document.getElementById("password_reset_popup").removeEventListener("keyup",handleEnterChangePass);
             
             const msg = "P" + new_pass;
             sendMSG(msg);
@@ -78,4 +86,5 @@ function closeNewPass(){
     document.getElementById("NewPass").value = "";
     document.getElementById("ReNewPass").value = "";
     document.getElementById("password_reset_popup").style.display = "none";
+    document.getElementById("password_reset_popup").removeEventListener("keyup",handleEnterChangePass);
 }
