@@ -72,7 +72,7 @@ function doneWifiCredentialCollection() {
     document.getElementById("pass").value = "";
     //DO STUFF WITH PASSWORD HERE
 
-    if(SSID!=null && WiFiPass!=null){
+    if(SSID!=null && WiFiPass!=null && SSID!="" && WiFiPass!=""){
         const msg = "W/" + SSID + "/" + WiFiPass;
         // console.log(msg);
         setupListenWifiEstablish();
