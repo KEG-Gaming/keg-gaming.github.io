@@ -9,11 +9,11 @@
   <body>
     <h1>Controller Settings</h1>
 
-    <button style="font-size : 28px;height:50px;width:140px" onclick="isWebBluetoothEnabled()">Connect</button>
-    <button style="font-size : 28px;height:50px;width:140px" onclick="getPassword()">Password</button>
-    <button style="font-size : 28px;height:50px;width:140px" onclick="enableWifiUpload()">Update</button>
-    <button style="font-size : 28px;height:50px;width:140px" onclick="requestAnalogReadings()">Analog</button>
-    <button style="font-size : 28px;height:50px;width:140px" onclick="requestDigitalReadings()">Digital</button>
+    <button id="Connect_Button" style="font-size : 28px;height:50px;width:140px;position:absolute;top:80px;left:8px;" onclick="isWebBluetoothEnabled()">Connect</button>
+    <button id="Password_Button" style="font-size : 28px;height:50px;width:140px;position:absolute;top:80px;left:153px;" onclick="getPassword()">Password</button>
+    <button style="font-size : 28px;height:50px;width:140px;position:absolute;top:80px;left:298px;" onclick="enableWifiUpload()">Update</button>
+    <button style="font-size : 28px;height:50px;width:140px;position:absolute;top:80px;left:443px;" onclick="requestAnalogReadings()">Analog</button>
+    <button style="font-size : 28px;height:50px;width:140px;position:absolute;top:80px;left:588px;" onclick="requestDigitalReadings()">Digital</button>
     
     <div id="on screen information" type="button" style="position:fixed; left:350px; top:30px; font-size:25px" onclick="redirectPage()">Click Connect To Pair Controller</div>
 
