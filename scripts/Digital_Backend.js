@@ -168,7 +168,7 @@ function sendButtonMapping(){
     var msg = "";
     let keys =[ ...Digital_Button_Map.keys() ];
     for(let i=0; i<12; i++){
-        msg = msg + Digital_Button_Map.get(keys[i]) + Toggle_Map.get(keys[i]);
+        msg = msg + Digital_Button_Map.get(keys[i]) + Toggle_Map.get(Digital_Button_Map.get(keys[i]));
         if(i!=11){
             msg = msg + ".";
         }
