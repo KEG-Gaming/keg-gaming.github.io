@@ -11,6 +11,7 @@
 		href="https://keg-gaming.github.io/feed/">
 	<link rel="alternate" type="application/rss+xml" title="K.E.G. Gaming &raquo; Comments Feed"
 		href="https://keg-gaming.github.io/comments/feed/">
+
 	<style id="wp-block-site-logo-inline-css">
 		.wp-block-site-logo {
 			box-sizing: border-box;
@@ -451,6 +452,102 @@
 			padding: 1.25em 2.375em;
 			margin-top: 0;
 			margin-bottom: 0
+		}
+	</style>
+	<style id="wp-block-embed-inline-css">
+		.wp-block-embed.alignleft,
+		.wp-block-embed.alignright,
+		.wp-block[data-align=left]>[data-type="core/embed"],
+		.wp-block[data-align=right]>[data-type="core/embed"] {
+			max-width: 360px;
+			width: 100%
+		}
+
+		.wp-block-embed.alignleft .wp-block-embed__wrapper,
+		.wp-block-embed.alignright .wp-block-embed__wrapper,
+		.wp-block[data-align=left]>[data-type="core/embed"] .wp-block-embed__wrapper,
+		.wp-block[data-align=right]>[data-type="core/embed"] .wp-block-embed__wrapper {
+			min-width: 280px
+		}
+
+		.wp-block-cover .wp-block-embed {
+			min-width: 320px;
+			min-height: 240px
+		}
+
+		.wp-block-embed {
+			overflow-wrap: break-word
+		}
+
+		.wp-block-embed figcaption {
+			margin-top: .5em;
+			margin-bottom: 1em
+		}
+
+		.wp-block-embed iframe {
+			max-width: 100%
+		}
+
+		.wp-block-embed__wrapper {
+			position: relative
+		}
+
+		.wp-embed-responsive .wp-has-aspect-ratio .wp-block-embed__wrapper:before {
+			content: "";
+			display: block;
+			padding-top: 50%
+		}
+
+		.wp-embed-responsive .wp-has-aspect-ratio iframe {
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			height: 100%;
+			width: 100%
+		}
+
+		.wp-embed-responsive .wp-embed-aspect-21-9 .wp-block-embed__wrapper:before {
+			padding-top: 42.85%
+		}
+
+		.wp-embed-responsive .wp-embed-aspect-18-9 .wp-block-embed__wrapper:before {
+			padding-top: 50%
+		}
+
+		.wp-embed-responsive .wp-embed-aspect-16-9 .wp-block-embed__wrapper:before {
+			padding-top: 56.25%
+		}
+
+		.wp-embed-responsive .wp-embed-aspect-4-3 .wp-block-embed__wrapper:before {
+			padding-top: 75%
+		}
+
+		.wp-embed-responsive .wp-embed-aspect-1-1 .wp-block-embed__wrapper:before {
+			padding-top: 100%
+		}
+
+		.wp-embed-responsive .wp-embed-aspect-9-16 .wp-block-embed__wrapper:before {
+			padding-top: 177.77%
+		}
+
+		.wp-embed-responsive .wp-embed-aspect-1-2 .wp-block-embed__wrapper:before {
+			padding-top: 200%
+		}
+
+		.wp-block-embed figcaption {
+			color: #555;
+			font-size: 13px;
+			text-align: center
+		}
+
+		.is-dark-theme .wp-block-embed figcaption {
+			color: hsla(0, 0%, 100%, .65)
+		}
+
+		.wp-block-embed {
+			margin: 0 0 1em
 		}
 	</style>
 	<style id="wp-block-columns-inline-css">
@@ -1726,17 +1823,17 @@
 		}
 
 		.wp-block-navigation.wp-container-4,
-		.wp-block-navigation.wp-container-40 {
+		.wp-block-navigation.wp-container-41 {
 			justify-content: flex-end;
 		}
 
 		.wp-block-group.wp-container-5,
-		.wp-block-group.wp-container-41 {
+		.wp-block-group.wp-container-42 {
 			justify-content: space-between;
 		}
 
 		.wp-block-columns.wp-container-21,
-		.wp-block-columns.wp-container-35 {
+		.wp-block-columns.wp-container-36 {
 			flex-wrap: nowrap;
 		}
 	</style>
@@ -2184,6 +2281,11 @@
 								<div class="is-layout-flex wp-block-buttons" style="margin-top:14px">
 									<div class="wp-block-button"><a class="wp-block-button__link wp-element-button"
 											href="https://keg-gaming.github.io/contact-us/">Get in touch</a></div>
+
+
+
+									<div class="wp-block-button"><a class="wp-block-button__link wp-element-button"
+											href="https://discord.gg/vufCznzU">Join our discord</a></div>
 								</div>
 							</div>
 						</div>
@@ -2230,18 +2332,25 @@
 
 
 			<div class="is-layout-constrained wp-block-group alignfull wp-block-section wp-bloock-music-podcast">
-				<p><strong>SETUP SO EASY, YOU CAN DO IT IN A BEST BUY</strong></p>
+				<p><strong>Controller setup so easy, you can do it almost anywhere</strong></p>
 
 
 
-				<p>Watch us run around our local Best Buy and use a variety of their display items to calibrate analog
-					inputs and remap buttons. Coming soon. See the setup page below for a preview.</p>
+				<figure
+					class="wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio">
+					<div class="wp-block-embed__wrapper">
+						<iframe loading="lazy" title="Introducing the KEG Controller" width="500" height="281"
+							src="https://www.youtube.com/embed/HvOZPKX7Ttg?feature=oembed" frameborder="0"
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+							allowfullscreen></iframe>
+					</div>
+				</figure>
 
 
 
 				<div class="is-layout-flex wp-block-buttons">
-					<div class="wp-block-button"><a class="wp-block-button__link wp-element-button"><strong>Controller
-								Setup</strong></a></div>
+					<div class="wp-block-button"><a class="wp-block-button__link wp-element-button"><strong>Checkout the
+								Controller Setup Page</strong></a></div>
 				</div>
 			</div>
 
@@ -2360,7 +2469,9 @@
 					data-object-fit="cover"
 					srcset="https://keg-gaming.github.io/wp-content/uploads/2023/02/328085718_741915760780096_2311442845904507387_n-1-scaled.jpg 2560w, https://keg-gaming.github.io/wp-content/uploads/2023/02/328085718_741915760780096_2311442845904507387_n-1-300x225.jpg 300w, https://keg-gaming.github.io/wp-content/uploads/2023/02/328085718_741915760780096_2311442845904507387_n-1-1024x768.jpg 1024w, https://keg-gaming.github.io/wp-content/uploads/2023/02/328085718_741915760780096_2311442845904507387_n-1-768x576.jpg 768w, https://keg-gaming.github.io/wp-content/uploads/2023/02/328085718_741915760780096_2311442845904507387_n-1-1536x1152.jpg 1536w, https://keg-gaming.github.io/wp-content/uploads/2023/02/328085718_741915760780096_2311442845904507387_n-1-2048x1536.jpg 2048w"
 					sizes="(max-width: 2560px) 100vw, 2560px">
-				<div class="wp-block-cover__inner-container"></div>
+				<div class="wp-block-cover__inner-container">
+					<p class="has-text-align-center has-large-font-size"></p>
+				</div>
 			</div>
 		</main>
 
@@ -2370,7 +2481,7 @@
 				<div class="is-layout-constrained wp-block-group alignfull wp-block-footer wp-block-widget-area">
 					<div class="is-layout-flow wp-block-group alignwide">
 						<div
-							class="is-layout-flex wp-container-35 wp-block-columns wp-block-footer-widget-area-columns">
+							class="is-layout-flex wp-container-36 wp-block-columns wp-block-footer-widget-area-columns">
 							<div class="is-layout-flow wp-block-column wp-block-widget">
 								<div class="is-layout-flow wp-block-group">
 									<h2 id="contact"
@@ -2380,25 +2491,42 @@
 
 
 									<div class="is-layout-flex wp-block-group">
-										<figure class="wp-block-image size-full"><img decoding="async"
+										<figure class="wp-block-image size-full is-resized"><img decoding="async"
+												loading="lazy"
 												src="https://keg-gaming.github.io/wp-content/themes/pentatonic/assets/images/icon-location.png"
-												alt=""></figure>
+												alt="" width="24" height="24"></figure>
 
 
 
-										<p><a href="#">British Columbia, Canada</a></p>
+										<p>British Columbia, Canada</p>
 									</div>
 
 
 
 									<div class="is-layout-flex wp-block-group">
-										<figure class="wp-block-image size-full"><img decoding="async"
+										<figure class="wp-block-image size-full is-resized"><img decoding="async"
+												loading="lazy"
 												src="https://keg-gaming.github.io/wp-content/themes/pentatonic/assets/images/icon-envelope.png"
-												alt=""></figure>
+												alt="" width="24" height="24"></figure>
 
 
 
-										<p><a href="#">keg.controllers@gmail.com</a></p>
+										<p>keg.controllers@gmail.com</p>
+									</div>
+
+
+
+									<div class="is-layout-flex wp-block-group">
+										<figure class="wp-block-image size-full is-resized"><img decoding="async"
+												loading="lazy"
+												src="https://keg-gaming.github.io/wp-content/uploads/2023/03/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB-1.png"
+												alt="" class="wp-image-77" width="-1168" height="-886"
+												srcset="https://keg-gaming.github.io/wp-content/uploads/2023/03/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB-1.png 619w, https://keg-gaming.github.io/wp-content/uploads/2023/03/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB-1-300x228.png 300w"
+												sizes="(max-width: 619px) 100vw, 619px"></figure>
+
+
+
+										<p><a href="https://discord.gg/vufCznzU">K.E.G. Discord</a></p>
 									</div>
 
 
@@ -2420,21 +2548,21 @@
 			<div class="is-layout-constrained wp-block-group alignfull footer-dark">
 				<div class="is-layout-constrained wp-block-group alignfull wp-block-footer wp-block-site-generator">
 					<div
-						class="is-content-justification-space-between is-layout-flex wp-container-41 wp-block-group alignwide wp-block-site-info">
+						class="is-content-justification-space-between is-layout-flex wp-container-42 wp-block-group alignwide wp-block-site-info">
 						<p> Copyright © 2023. Powered by <a href="https://catchthemes.com/" rel="nofollow">Catch
 								Themes</a></p>
 
 
-						<nav class="is-content-justification-right is-layout-flex wp-container-40 is-responsive items-justified-right wp-block-navigation"
+						<nav class="is-content-justification-right is-layout-flex wp-container-41 is-responsive items-justified-right wp-block-navigation"
 							aria-label="Header navigation 2"><button aria-haspopup="true" aria-label="Open menu"
 								class="wp-block-navigation__responsive-container-open "
-								data-micromodal-trigger="modal-39"><svg width="24" height="24"
+								data-micromodal-trigger="modal-40"><svg width="24" height="24"
 									xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" aria-hidden="true"
 									focusable="false">
 									<rect x="4" y="7.5" width="16" height="1.5"></rect>
 									<rect x="4" y="15" width="16" height="1.5"></rect>
 								</svg></button>
-							<div class="wp-block-navigation__responsive-container  " id="modal-39">
+							<div class="wp-block-navigation__responsive-container  " id="modal-40">
 								<div class="wp-block-navigation__responsive-close" tabindex="-1" data-micromodal-close>
 									<div class="wp-block-navigation__responsive-dialog" aria-label="Menu">
 										<button aria-label="Close menu" data-micromodal-close
@@ -2446,7 +2574,7 @@
 												</path>
 											</svg></button>
 										<div class="wp-block-navigation__responsive-container-content"
-											id="modal-39-content">
+											id="modal-40-content">
 											<ul class="wp-block-navigation__container">
 												<li class=" wp-block-navigation-item wp-block-navigation-link"><a
 														class="wp-block-navigation-item__content"
