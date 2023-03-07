@@ -9,9 +9,10 @@ setDefaultMapping();
 var first_clicked = "";
 var second_clicked = "";
 var num_clicked = 0;
+var what_button_msg_flag = 0;
 
 function requestDigitalReadings(){
-    if(password_correct){
+    // if(password_correct){
         if(in_window_index != 2){
             finishedCalibration();
             DigitalInter();
@@ -34,11 +35,11 @@ function requestDigitalReadings(){
             })
             .catch(error => { console.error(error); });
         }
-    }
-    else{
-        console.log("Enter Password First");
-        document.getElementById("on screen information").innerHTML = "Enter Password First";
-    }
+    // }
+    // else{
+    //     console.log("Enter Password First");
+    //     document.getElementById("on screen information").innerHTML = "Enter Password First";
+    // }
 }
 
 
@@ -124,12 +125,15 @@ function setDefaultMapping(){
     Toggle_Map.set("l","Y");
 }
 
+
 function twoClicked(){
     if(first_clicked == second_clicked){
         toggleButton(first_clicked);
+        what_button_msg_flag = 1;
     }
     else{
         swapButtons(first_clicked,second_clicked);
+        what_button_msg_flag = 2;
     }
     console.log([...Digital_Button_Map.entries()]);
     console.log([...Toggle_Map.entries()]);
@@ -164,7 +168,7 @@ function sendButtonMapping(){
     var msg = "";
     let keys =[ ...Digital_Button_Map.keys() ];
     for(let i=0; i<12; i++){
-        msg = msg + Digital_Button_Map.get(keys[i]) + Toggle_Map.get(keys[i]);
+        msg = msg + Digital_Button_Map.get(keys[i]) + Toggle_Map.get(Digital_Button_Map.get(keys[i]));
         if(i!=11){
             msg = msg + ".";
         }

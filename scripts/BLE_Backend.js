@@ -7,51 +7,59 @@ var connected_flag = 0;
 var reset_password = 0;
 
 function isWebBluetoothEnabled() {
-    // this is what generates the BLE pop up searching window
-    navigator.bluetooth.requestDevice({
-        filters: [{
-            namePrefix: 'KEG'
-        }],
-        optionalServices: ["4fafc201-1fb5-459e-8fcc-c5c9c331914b"]
-    })
+    if(connected_flag == 0){
+        // this is what generates the BLE pop up searching window
+        navigator.bluetooth.requestDevice({
+            filters: [{
+                namePrefix: 'KEG'
+            }],
+            optionalServices: ["4fafc201-1fb5-459e-8fcc-c5c9c331914b"]
+        })
 
-    .then(device => {
-        return device.gatt.connect();
-    })
-    .then(server => {
-        BLE_Server = server;
-        console.log("Connected");
-        return server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b");
-    })
-    .then(service => {
-        return service.getCharacteristic("beb5483e-36e1-4688-b7f5-ea07361b26a8");
-    })
-    .then(characteristic => {
-        if (characteristic.properties.notify){
-            PASSWORD_CH = characteristic;
-            characteristic.addEventListener("characteristicvaluechanged",handleNewPassMSG);
-            characteristic.startNotifications();
-            console.log("listening for incoming data");
-        }
-        return 0;
-    })
-    .then(server => { /* … */ })
-    .catch(error => { console.log(error); });
+        .then(device => {
+            return device.gatt.connect();
+        })
+        .then(server => {
+            BLE_Server = server;
+            console.log("Connected");
+            return server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b");
+        })
+        .then(service => {
+            return service.getCharacteristic("beb5483e-36e1-4688-b7f5-ea07361b26a8");
+        })
+        .then(characteristic => {
+            if (characteristic.properties.notify){
+                PASSWORD_CH = characteristic;
+                characteristic.addEventListener("characteristicvaluechanged",handleNewPassMSG);
+                characteristic.startNotifications();
+                console.log("listening for incoming data");
+            }
+            return 0;
+        })
+        .then(server => { /* … */ })
+        .catch(error => { console.log(error); });
+    }
+    else{
+        showBLENameChangePopup();
+    }
 }
 
 
 function sendMSG(msg){
     console.log("Sending : " + msg);
-    currently_sending = msg;
-    BLE_Server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
-    .then(service => {
-        return service.getCharacteristic("da1e7d98-916b-11ed-a1eb-0242ac120002");
-    })
-    .then(characteristic => {
-        var enc = new TextEncoder();
-        characteristic.writeValue(enc.encode(msg));
-    })
-    .catch(error => { console.error(error); });
+    if(connected_flag){
+        // console.log("Sending : " + msg);
+        currently_sending = msg;
+        BLE_Server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
+        .then(service => {
+            return service.getCharacteristic("da1e7d98-916b-11ed-a1eb-0242ac120002");
+        })
+        .then(characteristic => {
+            var enc = new TextEncoder();
+            characteristic.writeValue(enc.encode(msg));
+        })
+        .catch(error => { console.error(error); });
+    }
 }
 
 
@@ -66,6 +74,7 @@ async function handleNewPassMSG(event){
         PASSWORD_CH.stopNotifications();
         PASSWORD_CH.removeEventListener("characteristicvaluechanged",handleNewPassMSG);
         password_correct = 1;
+        changeButtonNames();
     }
     else if(reading == "Reset Password" && reset_password == 0){
         document.getElementById("on screen information").innerHTML = "Reset Password";
@@ -78,4 +87,53 @@ async function handleNewPassMSG(event){
         console.log(reading);
         document.getElementById("on screen information").innerHTML = reading;
     }
+}
+
+
+function showBLENameChangePopup(){
+    document.getElementById("ble_popup").style.display = "block";
+    document.getElementById("ble_popup").addEventListener("keyup", handleEnterBLE);
+}
+
+function handleEnterBLE(event){
+    event.preventDefault();
+    if (event.key === "Enter") {
+        doneNewBLEName();
+    }
+}
+
+
+function doneNewBLEName(){
+    const new_ble_name = document.getElementById("newBLEName").value;
+
+    if(new_ble_name.length>=5 && new_ble_name.length<15){
+        document.getElementById("newBLEName").value = "";
+        document.getElementById("ble_popup").style.display = "none";
+        document.getElementById("ble_popup").removeEventListener("keyup",handleEnterBLE);
+        
+        const msg = "B" + new_ble_name;
+        sendMSG(msg);
+        setTimeout(() => {
+            sendMSG("Standby");
+        }, 1000);
+
+    }
+    else{
+        document.getElementById("BLEChangeMsg").innerHTML = "Outside [5,14] character range";
+    }
+}  
+
+
+
+function closeNewBLEName(){
+    document.getElementById("newBLEName").value = "";
+    document.getElementById("ble_popup").style.display = "none";
+    document.getElementById("ble_popup").removeEventListener("keyup",handleEnterBLE);
+}
+
+function changeButtonNames(){
+    document.getElementById("Connect_Button").style.fontSize = "20px";
+    document.getElementById("Password_Button").style.fontSize = "20px";
+    document.getElementById("Connect_Button").innerHTML = "Change BLE Name";
+    document.getElementById("Password_Button").innerHTML = "Change Password";
 }

@@ -383,8 +383,8 @@ function drawDigital(){
         if(Redo_Last_Button_Flag){
             drawButton(ctx,Redo_Last_Button_Path,Redo_Last_Button_Colour_Flag);
             drawText(ctx,"Redo Last", rlbx0+10, rlby0+40);
-            drawCurrButtonText(ctx,first_clicked);
         }
+        drawCurrButtonText(ctx,first_clicked);
         if(Reset_Default_Mapping_Flag){
             drawButton(ctx,Reset_Default_Mapping_Path,Reset_Default_Mapping_Colour_Flag);
             drawText(ctx,"Reset", rdmx0+40, rdmy0+40);
@@ -440,7 +440,21 @@ function drawCurrButtonText(ctx,text){
     }
     ctx.fillStyle = `rgb(0,0,0)`;
     ctx.font = "30px sans-serif";
-    ctx.fillText("Currently Selected: " + text, rlbx0+175, rdmy0+40)
+    if(num_clicked == 1){
+        ctx.fillText("Currently Selected: " + text, rlbx0+175, rdmy0+40);
+    }
+    else{
+        if(first_clicked != "" && second_clicked != ""){
+            switch(what_button_msg_flag){
+                case(1):
+                    ctx.fillText("Toggled: " + first_clicked, rlbx0+175, rdmy0+40);
+                    break;
+                case(2):
+                    ctx.fillText("Swapped: " + first_clicked + " & " + second_clicked, rlbx0+175, rdmy0+40);
+                    break;
+            }
+        }
+    }
 }
 
 function populateTags(tagObj,x,y,direc){
