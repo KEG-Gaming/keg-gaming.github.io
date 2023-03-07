@@ -11,7 +11,7 @@ function isWebBluetoothEnabled() {
         // this is what generates the BLE pop up searching window
         navigator.bluetooth.requestDevice({
             filters: [{
-                namePrefix: 'KEG'
+                services: ['4fafc201-1fb5-459e-8fcc-c5c9c331914b']
             }],
             optionalServices: ["4fafc201-1fb5-459e-8fcc-c5c9c331914b"]
         })
@@ -106,7 +106,7 @@ function handleEnterBLE(event){
 function doneNewBLEName(){
     const new_ble_name = document.getElementById("newBLEName").value;
 
-    if(new_ble_name.length>=5 && new_ble_name.length<15){
+    if(new_ble_name.length>=5 && new_ble_name.length<=14){
         document.getElementById("newBLEName").value = "";
         document.getElementById("ble_popup").style.display = "none";
         document.getElementById("ble_popup").removeEventListener("keyup",handleEnterBLE);
