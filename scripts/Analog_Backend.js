@@ -119,7 +119,7 @@ async function handleNewAnalogData(event){
         CStickXDeadzone.high = AnalogDeadzoneValues[2].split(',')[1];
         CStickXDeadzone.value = AnalogDeadzoneValues[2].split(',')[2];
 
-        CStickXDeadzone.low = AnalogDeadzoneValues[3].split(',')[0];
+        CStickYDeadzone.low = AnalogDeadzoneValues[3].split(',')[0];
         CStickYDeadzone.high = AnalogDeadzoneValues[3].split(',')[1];
         CStickYDeadzone.value = AnalogDeadzoneValues[3].split(',')[2];
         

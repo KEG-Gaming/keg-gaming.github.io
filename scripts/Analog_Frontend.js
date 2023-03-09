@@ -349,44 +349,77 @@ function drawReadingText(ctx,text,x,y){
     ctx.fillText(text, x, y)
 }
 
+
 function mapStickVals(neutch, low, high, val, dead){
-    var mapped = -1;
-    var lowS;
-    var highS;
-    var highSGood = 0; // for checking division by 0
-    var lowSGood = 0; // for checking division by 0
+    var mapped_val = 127;
 
-    // make the slopes
-    if((high-neutch)!=0){
-      highS = 127.0/(high-neutch);
-      highSGood = 1;
-    }
-    if((neutch-low)!=0){
-      lowS = 127.0/(neutch-low);
-      lowSGood = 1;
+    var side_flag = 0 ;
+    var min_val = -1;
+    var max_val = 0;
+
+    if (low < high){
+        side_flag = 1;
     }
 
-    // map the value onto the line
-    if(val <= neutch && lowSGood == 1){
-        mapped = Math.round(lowS*val-lowS*neutch+127.0);
-    }
-    if(val > neutch && highSGood == 1){
-        mapped = Math.round(highS*val-highS*neutch+127.0);
+    if(neutch - low == 0){
+        return 127;
     }
 
-    // display_msg = mapped.toString();
+    if(high - neutch == 0){
+        return 127;
+    }
 
-    // check if the mapped value exceeds the bounds
-    if(mapped<0){
+    if(side_flag){
+        if(val < neutch){
+            a = 0;
+            b = 127;
+
+            min_val = low;
+            max_val = neutch;
+
+            mapped_val = Math.round(a + (val - min_val)*(b-a) / (max_val - min_val));
+        }
+        else{
+            a = 127;
+            b = 255;
+
+            min_val = neutch;
+            max_val = high;
+
+            mapped_val = Math.round(a + (val - min_val)*(b-a) / (max_val - min_val));
+        }
+    }
+    else{
+        if (val > neutch){
+            a = 0;
+            b = 127;
+
+            min_val = low;
+            max_val = neutch;
+
+            mapped_val = Math.round(a + (val - min_val)*(b-a) / (max_val - min_val));
+        }
+        else{
+            a = 127;
+            b = 255;
+
+            min_val = neutch;
+            max_val = high;
+
+            mapped_val = Math.round(a + (val - min_val)*(b-a) / (max_val - min_val));
+        }
+    }
+
+    if(mapped_val<0){
         return 0;
     }
-    if(mapped > 255){
+    if(mapped_val > 255){
         return 255;
     }
 
-    if(mapped >= dead.low && mapped <= dead.high){
-        mapped = dead.value;
+    if(mapped_val >= dead.low && mapped_val <= dead.high){
+        mapped_val = dead.value;
     }
 
-    return mapped;
+    return mapped_val;
 }
