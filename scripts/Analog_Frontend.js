@@ -1,8 +1,14 @@
-const analog_stick_cal_X_shifts = [0,-1/2,1/2,0,0,0,0,0,0,0,0,0,0];
-const analog_stick_cal_Y_shifts = [0,0,0,0,1/2,-1/2,0,0,0,0,0,0,0];
+// const analog_stick_cal_X_shifts = [0,-1/2,1/2,0,0,0,0,0,0,0,0,0,0];
+// const analog_stick_cal_Y_shifts = [0,0,0,0,1/2,-1/2,0,0,0,0,0,0,0];
 
-const c_stick_cal_X_shifts = [0,0,0,0,0,0,0,-1/2,1/2,0,0,0,0];
-const c_stick_cal_Y_shifts = [0,0,0,0,0,0,0,0,0,0,1/2,-1/2,0];
+// const c_stick_cal_X_shifts = [0,0,0,0,0,0,0,-1/2,1/2,0,0,0,0];
+// const c_stick_cal_Y_shifts = [0,0,0,0,0,0,0,0,0,0,1/2,-1/2,0];
+
+const analog_stick_cal_X_shifts = [0, -1/2, -0.354,  0,    0.354, 1/2, 0.354,  0,   -0.354, 0,0,0,0,0,0,0,0,0,0];
+const analog_stick_cal_Y_shifts = [0,  0,   -0.354, -1/2, -0.354, 0,   0.354,  1/2,  0.354, 0,0,0,0,0,0,0,0,0,0];
+
+const c_stick_cal_X_shifts = [0,0,0,0,0,0,0,0,0,0, -1/2,   -0.354,  0,      0.354, 1/2,   0.354,  0,    -0.354, 0];
+const c_stick_cal_Y_shifts = [0,0,0,0,0,0,0,0,0,0,  0,     -0.354, -1/2,   -0.354, 0,     0.354,  1/2,   0.354, 0];
 
 var analog_stick_X;
 var analog_stick_Y;
@@ -39,6 +45,9 @@ const finished_calib_rect = new Path2D();
 const deadzones_rect = new Path2D();
 const send_deadzones_rect = new Path2D();
 const save_deadzones_rect = new Path2D();
+const toggle_L_trigger_rect = new Path2D();
+const toggle_R_trigger_rect = new Path2D();
+const toggle_stick_raw_rect = new Path2D();
 
 const left_trig_base_path = new Path2D();
 const right_trig_base_path = new Path2D();
@@ -56,6 +65,8 @@ send_calib_rect.rect(180,30,button_w,button_h);
 save_calib_rect.rect(355,30,button_w,button_h);
 finished_calib_rect.rect(530,30,button_w,button_h);
 
+toggle_L_trigger_rect.rect(55,235,button_w,button_h);
+
 const altx0 = 70;
 const alty0 = 350;
 left_trig_base_path.moveTo(altx0,alty0);
@@ -63,6 +74,8 @@ left_trig_base_path.arc(altx0,alty0-15,15,Math.PI/2,3*Math.PI/2,false);
 left_trig_base_path.lineTo(altx0+130,alty0-30);
 left_trig_base_path.arc(altx0+130,alty0-15,15,3*Math.PI/2,Math.PI/2,false);
 left_trig_base_path.lineTo(altx0,alty0);
+
+toggle_R_trigger_rect.rect(435,235,button_w,button_h);
 
 const artx0 = 450;
 const arty0 = 350;
@@ -72,6 +85,7 @@ right_trig_base_path.lineTo(artx0+130,arty0-30);
 right_trig_base_path.arc(artx0+130,arty0-15,15,3*Math.PI/2,Math.PI/2,false);
 right_trig_base_path.lineTo(artx0,arty0);
 
+toggle_stick_raw_rect.rect(240,540,button_w,button_h);
 
 var analog_stick_flag = 0;
 var c_stick_flag = 0;
@@ -85,6 +99,9 @@ var save_calib_flag = 0;
 var finished_calib_flag = 0;
 var deadzones_flag = 0;
 var trigger_flag = 0;
+var toggle_triggers_flag = 0;
+var toggle_stick_raw_flag = 0;
+
 
 var display_msg = "Message";
 
@@ -99,6 +116,12 @@ var send_calib_colour_flag = 0;
 var save_calib_colour_flag = 0;
 var finished_calib_colour_flag = 0;
 var deadzones_colour_flag = 0;
+var toggle_L_trigger_colour_flag = 0;
+var toggle_R_trigger_colour_flag = 0;
+var L_Trigger_on = 1;
+var R_Trigger_on = 1;
+var toggle_stick_raw_colour_flag = 0;
+var stick_raw_on_flag = 0;
 
 function draw() {
     
@@ -119,7 +142,7 @@ function draw() {
 
             ctx.lineWidth = 13;
             ctx.strokeStyle = `rgb(255,255,255)`;
-            if(storageCounter >= 6 && store_val_flag){
+            if(storageCounter >= 9 && store_val_flag){
                 ctx.strokeStyle = `rgb(255,255,255,0.5)`;
             }
             
@@ -141,12 +164,18 @@ function draw() {
             else{
                 ctx.lineWidth = 5;
                 ctx.beginPath();
-                analog_stick_X = oX+R+R*(-1/2+mapStickVals(Curr_AX_Cal_Vals[0], Curr_AX_Cal_Vals[1],Curr_AX_Cal_Vals[2], currentAX,AnalogStickXDeadzone)/255);
-                analog_stick_Y = oY+R*(1/2-mapStickVals(Curr_AY_Cal_Vals[0], Curr_AY_Cal_Vals[1],Curr_AY_Cal_Vals[2], currentAY,AnalogStickYDeadzone)/255);
+                analog_stick_X = oX+R+R*(-1/2+mapStickVals(Curr_AX_Cal_Vals, currentAX,0,AnalogStickXDeadzone)/255);
+                analog_stick_Y = oY+R*(1/2-mapStickVals(Curr_AY_Cal_Vals, currentAY,1,AnalogStickYDeadzone)/255);
                 ctx.arc(analog_stick_X, analog_stick_Y, R-15, 0, Math.PI * 2, true); // Outer circle
                 ctx.stroke();
-                drawReadingText(ctx,"X = " + Math.round(mapStickVals(Curr_AX_Cal_Vals[0], Curr_AX_Cal_Vals[1],Curr_AX_Cal_Vals[2], currentAX,AnalogStickXDeadzone)).toString(),oX+R-25,oY+R+40);
-                drawReadingText(ctx,"Y = " + Math.round(mapStickVals(Curr_AY_Cal_Vals[0], Curr_AY_Cal_Vals[1],Curr_AY_Cal_Vals[2], currentAY,AnalogStickYDeadzone)).toString(),oX+R-25,oY+R+70);
+                if(stick_raw_on_flag){
+                    drawReadingText(ctx,"X = " + currentAX.toString(),oX+R-25,oY+R+40);
+                    drawReadingText(ctx,"Y = " + currentAY.toString(),oX+R-25,oY+R+70);
+                }
+                else{
+                    drawReadingText(ctx,"X = " + Math.round(mapStickVals(Curr_AX_Cal_Vals, currentAX,0,AnalogStickXDeadzone)).toString(),oX+R-25,oY+R+40);
+                    drawReadingText(ctx,"Y = " + Math.round(mapStickVals(Curr_AY_Cal_Vals, currentAY,1,AnalogStickYDeadzone)).toString(),oX+R-25,oY+R+70);
+                }
             }
         }
 
@@ -158,7 +187,7 @@ function draw() {
 
             ctx.lineWidth = 13;
             ctx.strokeStyle = `rgb(250,245,6)`;
-            if(storageCounter < 6 && store_val_flag){
+            if(storageCounter < 9 && store_val_flag){
                 ctx.strokeStyle = `rgb(250,245,6,0.5)`;
             }
 
@@ -179,12 +208,18 @@ function draw() {
             else{
                 ctx.lineWidth = 5;
                 ctx.beginPath();
-                c_stick_X = oX+R+R*(-1/2+mapStickVals(Curr_CX_Cal_Vals[0], Curr_CX_Cal_Vals[1],Curr_CX_Cal_Vals[2], currentCX, CStickXDeadzone)/255);
-                c_stick_Y = oY+R*(1/2-mapStickVals(Curr_CY_Cal_Vals[0], Curr_CY_Cal_Vals[1],Curr_CY_Cal_Vals[2], currentCY, CStickYDeadzone)/255);
+                c_stick_X = oX+R+R*(-1/2+mapStickVals(Curr_CX_Cal_Vals, currentCX,0, CStickXDeadzone)/255);
+                c_stick_Y = oY+R*(1/2-mapStickVals(Curr_CY_Cal_Vals, currentCY,1, CStickYDeadzone)/255);
                 ctx.arc(c_stick_X, c_stick_Y, R-20, 0, Math.PI * 2, true); // Outer circle
                 ctx.stroke();
-                drawReadingText(ctx,"X = " + Math.round(mapStickVals(Curr_CX_Cal_Vals[0], Curr_CX_Cal_Vals[1],Curr_CX_Cal_Vals[2], currentCX, CStickXDeadzone)).toString(),oX+R-25,oY+R+40);
-                drawReadingText(ctx,"Y = " + Math.round(mapStickVals(Curr_CY_Cal_Vals[0], Curr_CY_Cal_Vals[1],Curr_CY_Cal_Vals[2], currentCY, CStickYDeadzone)).toString(),oX+R-25,oY+R+70);
+                if(stick_raw_on_flag){
+                    drawReadingText(ctx,"X = " + currentCX.toString(),oX+R-25,oY+R+40);
+                    drawReadingText(ctx,"Y = " + currentCY.toString(),oX+R-25,oY+R+70);
+                }
+                else{
+                    drawReadingText(ctx,"X = " + Math.round(mapStickVals(Curr_CX_Cal_Vals, currentCX,0, CStickXDeadzone)).toString(),oX+R-25,oY+R+40);
+                    drawReadingText(ctx,"Y = " + Math.round(mapStickVals(Curr_CY_Cal_Vals, currentCY,1, CStickYDeadzone)).toString(),oX+R-25,oY+R+70);
+                }
             }
         }
 
@@ -215,7 +250,7 @@ function draw() {
         // other buttons like store, redo, done, etc...
         if(store_val_flag){
             drawButton(ctx,store_value_rect,store_val_colour_flag);
-            if(storageCounter == numCalPoints*4){
+            if(storageCounter == numCalPoints*2){
                 drawText(ctx,"Done",50,239);
             }
             else{
@@ -223,7 +258,7 @@ function draw() {
                 // drawText(ctx,"Store", 50, 225);
                 // drawText(ctx,"Value", 50, 255);
             }
-            if(storageCounter == 0 || storageCounter == 6){
+            if(storageCounter == 0 || storageCounter == 9){
                 drawText(ctx,Analog_Instructions[1], 10, 140); // some instructions
                 drawText(ctx,Analog_Instructions[2], 10, 170); // some instructions
             }
@@ -269,6 +304,35 @@ function draw() {
         if(deadzones_flag){
             drawButton(ctx,deadzones_rect,deadzones_colour_flag);
             drawText(ctx,"Deadzones",360,239);
+        }
+        if(toggle_triggers_flag){
+            drawButton(ctx,toggle_L_trigger_rect,toggle_L_trigger_colour_flag);
+            drawText(ctx,"Toggle",60+30,274);
+            if(L_Trigger_on){
+                drawText(ctx,"ON",250,350); 
+            }
+            else{
+                drawText(ctx,"OFF",250,350); 
+            }
+        }
+        if(toggle_triggers_flag){
+            drawButton(ctx,toggle_R_trigger_rect,toggle_R_trigger_colour_flag);
+            drawText(ctx,"Toggle",440+30,274);
+            if(R_Trigger_on){
+                drawText(ctx,"ON",600,350); 
+            }
+            else{
+                drawText(ctx,"OFF",600,350); 
+            }
+        }
+        if(toggle_stick_raw_flag){
+            drawButton(ctx,toggle_stick_raw_rect,toggle_stick_raw_colour_flag);
+            if(stick_raw_on_flag){
+                drawText(ctx,"Mapped",265,579);
+            }
+            else{
+                drawText(ctx,"Raw",290,579);
+            }
         }
         if(finished_calib_flag){
             drawButton(ctx,finished_calib_rect,finished_calib_colour_flag);
@@ -324,6 +388,8 @@ function inter(){
     // deadzones_flag = 1; // ADD THIS BACK IF YOU WANT DEADZONE CALIBRATION
     finished_calib_flag = 1;
     trigger_flag = 1;
+    toggle_triggers_flag = 1;
+    toggle_stick_raw_flag = 1;
     drawInterval = setInterval(draw, 10); // calls draw every 10 ms
 }
 
@@ -350,76 +416,128 @@ function drawReadingText(ctx,text,x,y){
 }
 
 
-function mapStickVals(neutch, low, high, val, dead){
-    var mapped_val = 127;
 
-    var side_flag = 0 ;
-    var min_val = -1;
-    var max_val = 0;
 
-    if (low < high){
-        side_flag = 1;
-    }
 
-    if(neutch - low == 0){
-        return 127;
-    }
+ function bisect(a, val, size){
+    var lo = 0;
+    var hi = size;
+    var mid;
 
-    if(high - neutch == 0){
-        return 127;
-    }
-
-    if(side_flag){
-        if(val < neutch){
-            a = 0;
-            b = 127;
-
-            min_val = low;
-            max_val = neutch;
-
-            mapped_val = Math.round(a + (val - min_val)*(b-a) / (max_val - min_val));
+    while (lo < hi) {
+        mid = Math.trunc((lo + hi) / 2);
+        
+        if (val < a[mid]) {
+            hi = mid;
         }
-        else{
-            a = 127;
-            b = 255;
+        else {
+            lo = mid + 1;
+        }
+    }
+    return lo;
+}
 
-            min_val = neutch;
-            max_val = high;
 
-            mapped_val = Math.round(a + (val - min_val)*(b-a) / (max_val - min_val));
+
+
+/**
+ * @brief Use all of octagon notches to calibrate  
+ * 
+ * @note assumes calArray is sorted
+
+*/
+function mapStickVals(calArray, val, XorY, dead, printFlag=0){
+    var mapped_val = 127;
+    var numCalibPoints = 7;
+
+    if (XorY == 0){
+        // int sorted_cals[7] = {west, northWest,southWest, neutch, northEast, southEast, east};
+        var west = calArray[0];
+        var east = calArray[6];
+        // var flipped_magnet_dir = (west<east) ? false : true;
+        var flipped_magnet_dir = true;
+        if(west<east){
+            flipped_magnet_dir = false;
         }
     }
     else{
-        if (val > neutch){
-            a = 0;
-            b = 127;
-
-            min_val = low;
-            max_val = neutch;
-
-            mapped_val = Math.round(a + (val - min_val)*(b-a) / (max_val - min_val));
-        }
-        else{
-            a = 127;
-            b = 255;
-
-            min_val = neutch;
-            max_val = high;
-
-            mapped_val = Math.round(a + (val - min_val)*(b-a) / (max_val - min_val));
+        // int sorted_cals[7] = {south, southWest,southEast, neutch, northEast, northWest, north};
+        var south = calArray[0];
+        var north = calArray[6];
+        // var flipped_magnet_dir = (south < north) ? false : true;
+        var flipped_magnet_dir = true;
+        if(south<north){
+            flipped_magnet_dir = false;
         }
     }
+    
+    var sortedCalArray = calArray.slice();
+    sortedCalArray.sort(function(a, b){return a - b});
 
-    if(mapped_val<0){
-        return 0;
-    }
-    if(mapped_val > 255){
-        return 255;
+    // TODO: Find which section val is in
+    var index = bisect(sortedCalArray, val, numCalibPoints);
+    if(printFlag){
+        console.log("index = " + index);
+        console.log(sortedCalArray);
+        console.log("val = " + val);
     }
 
+    if (index == 0){
+        mapped_val = 0;
+    }
+    else if (index == 1){
+        var a = 0;
+        var b = 37;
+
+        var min_val = sortedCalArray[0];
+        var max_val = sortedCalArray[1];
+        mapped_val = (a + (val - min_val)*(b-a) / (max_val - min_val));
+    }
+    else if (index == 2){
+        mapped_val = 37;
+    }
+    else if (index == 3){
+        var a = 37;
+        var b = 127;
+
+        var min_val = sortedCalArray[2];
+        var max_val = sortedCalArray[3];
+        mapped_val = (a + (val - min_val)*(b-a) / (max_val - min_val));
+    }
+    else if (index == 4){
+        var a = 127;
+        var b = 218;
+
+        var min_val = sortedCalArray[3];
+        var max_val = sortedCalArray[4];
+        mapped_val = (a + (val - min_val)*(b-a) / (max_val - min_val));
+    }
+    else if (index == 5){
+        mapped_val = 218;
+    }
+    else if (index == 6){
+        var a = 218;
+        var b = 255;
+
+        var min_val = sortedCalArray[5];
+        var max_val = sortedCalArray[6];
+        mapped_val = (a + (val - min_val)*(b-a) / (max_val - min_val));
+    }
+    else if (index == numCalibPoints){
+        mapped_val = 255;
+    }
+    
     if(mapped_val >= dead.low && mapped_val <= dead.high){
         mapped_val = dead.value;
     }
 
+    if(flipped_magnet_dir == true){
+        if (mapped_val == 127){
+            return 127
+        }
+        return 255-mapped_val;
+    }
+
+    
     return mapped_val;
 }

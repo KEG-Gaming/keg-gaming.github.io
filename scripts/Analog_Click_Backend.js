@@ -64,6 +64,9 @@ function parseScreenClick(event){
               }, button_colour_delay);
 
             sendStickCalibration();
+            setTimeout(() => {
+                sendStickDeadzones();
+              }, 1000);
         }
         if(save_calib_flag && ctx.isPointInPath(save_calib_rect, x, y)){
             save_calib_colour_flag = 1;
@@ -79,10 +82,57 @@ function parseScreenClick(event){
                 deadzones_colour_flag = 0;
               }, button_colour_delay);
 
-            sendMSG("RDC");
+            // sendMSG("RDC");
             setTimeout(() => {
-                editDeadzones();
+                // editDeadzones();
+                showDeadzonePopup();
             }, 1000);
+        }
+        if(toggle_triggers_flag && ctx.isPointInPath(toggle_L_trigger_rect,x,y)){
+            toggle_L_trigger_colour_flag = 1;
+            setTimeout(() => {
+                toggle_L_trigger_colour_flag = 0;
+              }, button_colour_delay);
+            setTimeout(() => {
+                sendMSG("A");
+              }, 1000);
+            if(L_Trigger_on){
+                L_Trigger_on = 0;
+            }
+            else{
+                L_Trigger_on = 1;
+            }
+            var trig_msg = "T" + L_Trigger_on.toString() + R_Trigger_on.toString();
+            sendMSG(trig_msg);
+        }
+        if(toggle_triggers_flag && ctx.isPointInPath(toggle_R_trigger_rect,x,y)){
+            toggle_R_trigger_colour_flag = 1;
+            setTimeout(() => {
+                toggle_R_trigger_colour_flag = 0;
+              }, button_colour_delay);
+            setTimeout(() => {
+                sendMSG("A");
+            }, 1000);
+            if(R_Trigger_on){
+                R_Trigger_on = 0;
+            }
+            else{
+                R_Trigger_on = 1;
+            }
+            var trig_msg = "T" + L_Trigger_on.toString() + R_Trigger_on.toString();
+            sendMSG(trig_msg);
+        }
+        if(toggle_stick_raw_flag && ctx.isPointInPath(toggle_stick_raw_rect,x,y)){
+            toggle_stick_raw_colour_flag = 1;
+            setTimeout(() => {
+                toggle_stick_raw_colour_flag = 0;
+              }, button_colour_delay);
+            if(stick_raw_on_flag){
+                stick_raw_on_flag = 0;
+            }
+            else{
+                stick_raw_on_flag = 1;
+            }
         }
         if(trigger_flag && ctx.isPointInPath(left_trig_base_path, x, y)){
             console.log("Left trigger clicked");
@@ -110,50 +160,98 @@ function parseScreenClick(event){
         if(A_Button_flag && ctx.isPointInPath(A_Button_Path,x,y)){
             console.log("Clicked A Button");
             onGCSimButtonClicked("A");
+            A_Colour_flag = 1;
+            setTimeout(() => {
+                A_Colour_flag = 0;
+            }, button_colour_delay);
         }
         if(B_Button_flag && ctx.isPointInPath(B_Button_Path,x,y)){
             console.log("Clicked B Button");
             onGCSimButtonClicked("B");
+            B_Colour_flag = 1;
+            setTimeout(() => {
+                B_Colour_flag = 0;
+            }, button_colour_delay);
         }
         if(S_Button_flag && ctx.isPointInPath(S_Button_Path,x,y)){
             console.log("Clicked Start Button");
             onGCSimButtonClicked("S");
+            S_Colour_flag = 1;
+            setTimeout(() => {
+                S_Colour_flag = 0;
+            }, button_colour_delay);
         }
         if(D_Button_flag && ctx.isPointInPath(DU_Button_Path,x,y)){
             console.log("Clicked D-Pad Up Button");
             onGCSimButtonClicked("u");
+            u_Colour_flag = 1;
+            setTimeout(() => {
+                u_Colour_flag = 0;
+            }, button_colour_delay);
         }
         if(D_Button_flag && ctx.isPointInPath(DR_Button_Path,x,y)){
             console.log("Clicked D-Pad Rigth Button");
             onGCSimButtonClicked("r");
+            r_Colour_flag = 1;
+            setTimeout(() => {
+                r_Colour_flag = 0;
+            }, button_colour_delay);
         }
         if(D_Button_flag && ctx.isPointInPath(DD_Button_Path,x,y)){
             console.log("Clicked D-Pad Down Button");
             onGCSimButtonClicked("d");
+            d_Colour_flag = 1;
+            setTimeout(() => {
+                d_Colour_flag = 0;
+            }, button_colour_delay);
         }
         if(D_Button_flag && ctx.isPointInPath(DL_Button_Path,x,y)){
             console.log("Clicked D-Pad Left Button");
             onGCSimButtonClicked("l");
+            l_Colour_flag = 1;
+            setTimeout(() => {
+                l_Colour_flag = 0;
+            }, button_colour_delay);
         }
         if(X_Button_flag && ctx.isPointInPath(X_Button_Path,x,y)){
             console.log("Clicked X Button");
             onGCSimButtonClicked("X");
+            X_Colour_flag = 1;
+            setTimeout(() => {
+                X_Colour_flag = 0;
+            }, button_colour_delay);
         }
         if(Y_Button_flag && ctx.isPointInPath(Y_Button_Path,x,y)){
             console.log("Clicked Y Button");
             onGCSimButtonClicked("Y");
+            Y_Colour_flag = 1;
+            setTimeout(() => {
+                Y_Colour_flag = 0;
+            }, button_colour_delay);
         }
         if(Z_Button_flag && ctx.isPointInPath(Z_Button_Path,x,y)){
             console.log("Clicked Z Button");
             onGCSimButtonClicked("Z");
+            Z_Colour_flag = 1;
+            setTimeout(() => {
+                Z_Colour_flag = 0;
+            }, button_colour_delay);
         }
         if(L_Button_flag && ctx.isPointInPath(L_Button_Path,x,y)){
             console.log("Clicked L Button");
             onGCSimButtonClicked("L");
+            L_Colour_flag = 1;
+            setTimeout(() => {
+                L_Colour_flag = 0;
+            }, button_colour_delay);
         }
         if(R_Button_flag && ctx.isPointInPath(R_Button_Path,x,y)){
             console.log("Clicked R Button");
             onGCSimButtonClicked("R");
+            R_Colour_flag = 1;
+            setTimeout(() => {
+                R_Colour_flag = 0;
+            }, button_colour_delay);
         }
         if(Read_Mapping_Button_Flag && ctx.isPointInPath(Read_Mapping_Button_Path,x,y)){
             Read_Mapping_Button_Colour_Flag = 1;
@@ -218,6 +316,8 @@ function onAnalogStickClick(){
     store_val_flag = 1;
     done_calib_flag = 1;
     deadzones_flag = 1;
+    toggle_triggers_flag = 0;
+    toggle_stick_raw_flag = 0;
     storageCounter = 0;
 }
 
@@ -226,6 +326,8 @@ function onCStickClick(){
     store_val_flag = 1;
     done_calib_flag = 1;
     deadzones_flag = 1;
+    toggle_triggers_flag = 0;
+    toggle_stick_raw_flag = 0;
 }
 
 function onGCSimButtonClicked(tag){
