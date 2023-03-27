@@ -68,7 +68,7 @@ async function handleNewPassMSG(event){
     const value = event.target.value;
     var enc = new TextDecoder("utf-8");
     var reading = enc.decode(value);
-    if(reading.startsWith("Connected to:")){
+    if(reading.startsWith("Connected to:") || reading.startsWith("Password Correct")){ // for backwards compatability with v1.1.1 alpha and below
         console.log("Password Correct");
         document.getElementById("on screen information").innerHTML = "Password Correct";
         document.getElementById("Firmware Version").innerHTML = reading;
