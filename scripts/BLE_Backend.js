@@ -68,9 +68,10 @@ async function handleNewPassMSG(event){
     const value = event.target.value;
     var enc = new TextDecoder("utf-8");
     var reading = enc.decode(value);
-    if(reading == "Password Correct"){
+    if(reading.startsWith("Connected to:")){
         console.log("Password Correct");
         document.getElementById("on screen information").innerHTML = "Password Correct";
+        document.getElementById("Firmware Version").innerHTML = reading;
         PASSWORD_CH.stopNotifications();
         PASSWORD_CH.removeEventListener("characteristicvaluechanged",handleNewPassMSG);
         password_correct = 1;
