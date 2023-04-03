@@ -49,6 +49,7 @@ function requestAnalogReadings(){
     // if(password_correct){
         if(in_window_index != 1){
             finishedDigitalSettings();
+            finishedDebug();
             inter();
             in_window_index = 1;
             sendMSG("RAC");
@@ -62,20 +63,22 @@ function requestAnalogReadings(){
             .then(characteristic => {
                 if (characteristic.properties.notify){
                     ANALOG_CH = characteristic;
-                    characteristic.addEventListener("characteristicvaluechanged",handleNewAnalogData);
-                    characteristic.startNotifications();
-
-                    console.log("Analog Notifications enabled");
                     setTimeout(() => {
-                        sendMSG("RDC");
+                        characteristic.addEventListener("characteristicvaluechanged",handleNewAnalogData);
+                        characteristic.startNotifications();
+
                         console.log("Analog Notifications enabled");
                         setTimeout(() => {
-                            sendMSG("RTT");
+                            sendMSG("RDC");
+                            console.log("Analog Notifications enabled");
                             setTimeout(() => {
-                                sendMSG("A");
+                                sendMSG("RTT");
+                                setTimeout(() => {
+                                    sendMSG("A");
+                                }, 1000);
                             }, 1000);
-                        }, 1000);
-                    }, 1000); 
+                        }, 1000); 
+                    },1000);
                 }
                 return 0;
             })
