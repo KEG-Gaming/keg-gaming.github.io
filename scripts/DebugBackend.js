@@ -2,28 +2,35 @@
 var Debug_CH;
 var debug_input = ""
 
+const allowed_debug_messages = ["0","1","2"];
+
 function sendDebugMSG(){
     finishedDigitalSettings();
     finishedCalibration();
 
     debug_input = window.prompt("Which debug message do u want to send?");
-    const msg = "Debug" + debug_input;
-    sendMSG(msg);
+    if(allowed_debug_messages.includes(debug_input)){
+        const msg = "Debug" + debug_input;
+        sendMSG(msg);
 
-    console.log("Requesting debug data: " + debug_input);
-    BLE_Server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
-    .then(service => {
-        return service.getCharacteristic("beb5483e-36e1-4688-b7f5-ea07361b26a8");
-    })
-    .then(characteristic => {
-        if (characteristic.properties.notify){
-            Debug_CH = characteristic;
-            characteristic.addEventListener("characteristicvaluechanged",handleNewDebugData);
-            characteristic.startNotifications();
-        }
-        return 0;
-    })
-    .catch(error => { console.error(error); });
+        console.log("Requesting debug data: " + debug_input);
+        BLE_Server.getPrimaryService("4fafc201-1fb5-459e-8fcc-c5c9c331914b")
+        .then(service => {
+            return service.getCharacteristic("beb5483e-36e1-4688-b7f5-ea07361b26a8");
+        })
+        .then(characteristic => {
+            if (characteristic.properties.notify){
+                Debug_CH = characteristic;
+                characteristic.addEventListener("characteristicvaluechanged",handleNewDebugData);
+                characteristic.startNotifications();
+            }
+            return 0;
+        })
+        .catch(error => { console.error(error); });
+    }
+    else{
+        console.log("debug input of " + debug_input + " is not allowed");
+    }
 }
 
 function handleNewDebugData(event){

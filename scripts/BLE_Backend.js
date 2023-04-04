@@ -5,6 +5,7 @@ var password_correct = 0;
 var in_window_index = 0;
 var connected_flag = 0;
 var reset_password = 0;
+const current_firmware_release = "v1.1.3-alpha-debug"; // change when change the release firmware
 
 
 function isWebBluetoothEnabled() {
@@ -73,7 +74,12 @@ async function handleNewPassMSG(event){
     if(reading.startsWith("Connected to:") || reading.startsWith("Password Correct")){ // for backwards compatability with v1.1.1 alpha and below
         console.log("Password Correct");
         document.getElementById("on screen information").innerHTML = "Password Correct";
-        document.getElementById("Firmware Version").innerHTML = reading;
+        if(reading.substring(14) != current_firmware_release){
+            document.getElementById("Firmware Version").innerHTML = reading + ", latest release = " + current_firmware_release;
+        }
+        else{
+            document.getElementById("Firmware Version").innerHTML = reading;
+        }
         PASSWORD_CH.stopNotifications();
         PASSWORD_CH.removeEventListener("characteristicvaluechanged",handleNewPassMSG);
         password_correct = 1;

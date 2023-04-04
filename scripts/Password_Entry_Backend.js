@@ -3,6 +3,9 @@
 
 function getPassword(){
     if(connected_flag){
+        finishedDigitalSettings();
+        finishedCalibration();
+        finishedDebug();
         if(password_correct || reset_password){
             console.log("password correct = " + password_correct);
             console.log("reset password = " + reset_password);
